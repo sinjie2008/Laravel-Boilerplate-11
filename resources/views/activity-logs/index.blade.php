@@ -49,19 +49,19 @@
                                 <th>User</th>
                                 <th>Action</th>
                                 <th>Model</th>
-                                <th>Details</th>
+                                <th class="d-none">Details</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($activities as $activity)
                                 <tr>
                                     <td>{{ $activity->created_at }}</td>
-                                    <td>{{ $activity->causer ? $activity->causer->name : 'System' }}</td>
+                                    <td>{{ $activity->causer_name ? $activity->causer_name : 'System' }}</td>
                                     <td>{{ $activity->description }}</td>
                                     <td>{{ $activity->subject_type }}</td>
-                                    <td>
+                                    <td class="d-none">
                                         @if($activity->properties)
-                                            <pre>{{ json_encode($activity->properties, JSON_PRETTY_PRINT) }}</pre>
+                                            {{ json_encode($activity->properties, JSON_PRETTY_PRINT) }}
                                         @endif
                                     </td>
                                 </tr>

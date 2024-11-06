@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\DB;
 
 class PermissionController extends Controller
 {
@@ -18,7 +19,8 @@ class PermissionController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
-        $permissions = Permission::when($search, function ($query) use ($search) {
+        $permissions = DB::table('permissions')
+            ->when($search, function ($query) use ($search) {
                 return $query->where('name', 'like', "%{$search}%");
             })
             ->orderBy('id', 'DESC')

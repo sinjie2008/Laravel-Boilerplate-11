@@ -21,7 +21,8 @@ class RoleController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
-        $roles = Role::when($search, function ($query) use ($search) {
+        $roles = DB::table('roles')
+            ->when($search, function ($query) use ($search) {
                 return $query->where('name', 'like', "%{$search}%");
             })
             ->orderBy('id', 'DESC')
