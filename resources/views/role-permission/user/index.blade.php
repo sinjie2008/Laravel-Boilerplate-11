@@ -22,13 +22,25 @@
                 <div class="alert alert-success">{{ session('status') }}</div>
             @endif
 
-            <div class="card mt-3">
+            <div class="card">
                 <div class="card-header">
-                    <h4>
-                        @can('create user')
-                        <a href="{{ url('admin/users/create') }}" class="btn btn-primary float-end">Add User</a>
-                        @endcan
-                    </h4>
+                    <div class="row">
+                        <div class="col-md-6">
+                            @can('create permission')
+                            <a href="{{ url('admin/users/create') }}" class="btn btn-primary float-end">Add User</a>
+                            @endcan
+                        </div>
+                        <div class="col-md-6">
+                            <form action="" method="GET" class="float-end">
+                                <div class="input-group">
+                                    <input type="text" name="search" value="{{ $search ?? '' }}" class="form-control" placeholder="Search...">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
 
@@ -69,6 +81,9 @@
                         </tbody>
                     </table>
 
+                </div>
+                <div class="card-footer">
+                    {{ $users->appends(['search' => $search])->links('pagination::bootstrap-4') }}
                 </div>
             </div>
         </div>

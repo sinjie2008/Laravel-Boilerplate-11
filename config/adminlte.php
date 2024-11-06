@@ -316,7 +316,7 @@ return [
             'text' => 'search',
         ],
 
-        ['header' => 'ROLES & PERMISSIONS'],
+        ['header' => 'User Management'],
         [
             'text' => 'Users',
             'url'  => 'admin/users',

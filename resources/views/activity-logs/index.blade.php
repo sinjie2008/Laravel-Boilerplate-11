@@ -23,6 +23,24 @@
             @endif
 
             <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-6">
+
+                        </div>
+                        <div class="col-md-6">
+                            <form action="" method="GET" class="float-end">
+                                <div class="input-group">
+                                    <input type="text" name="search" value="{{ $search ?? '' }}" class="form-control" placeholder="Search...">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="card-body">
                     <table class="table table-bordered table-striped">
                         <thead>
@@ -53,7 +71,12 @@
 
                     {{ $activities->links() }} 
                 </div>
+
+                <div class="card-footer">
+                    {{ $activities->appends(['search' => $search])->links('pagination::bootstrap-4') }}
+                </div>
             </div>
+
         </div>
     </div>
 

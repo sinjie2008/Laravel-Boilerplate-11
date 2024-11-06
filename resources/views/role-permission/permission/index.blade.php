@@ -24,9 +24,23 @@
 
             <div class="card">
                 <div class="card-header">
-                    @can('create permission')
-                    <a href="{{ url('admin/permissions/create') }}" class="btn btn-primary float-end">Add Permission</a>
-                    @endcan
+                    <div class="row">
+                        <div class="col-md-6">
+                            @can('create permission')
+                            <a href="{{ url('admin/permissions/create') }}" class="btn btn-primary">Add Permission</a>
+                            @endcan
+                        </div>
+                        <div class="col-md-6">
+                            <form action="" method="GET" class="float-end">
+                                <div class="input-group">
+                                    <input type="text" name="search" value="{{ $search ?? '' }}" class="form-control" placeholder="Search...">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
 
@@ -56,7 +70,9 @@
                             @endforeach
                         </tbody>
                     </table>
-
+                </div>
+                <div class="card-footer">
+                    {{ $permissions->appends(['search' => $search])->links('pagination::bootstrap-4') }}
                 </div>
             </div>
         </div>

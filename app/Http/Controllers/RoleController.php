@@ -18,10 +18,16 @@ class RoleController extends Controller
         $this->middleware('permission:delete role', ['only' => ['destroy']]);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $roles = Role::get();
-        return view('role-permission.role.index', ['roles' => $roles]);
+        $search = $request->input('search');
+        $roles = Role::when($search, function ($query) use ($search) {
+                return $query->where('name', 'like', "%{$search}%");
+            })
+            ->orderBy('id', 'DESC')
+            ->paginate(10);
+        
+        return view('role-permission.role.index', compact('roles', 'search'));
     }
 
     public function create()
