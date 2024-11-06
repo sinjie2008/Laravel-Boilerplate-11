@@ -32,19 +32,15 @@ class RoleController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => [
-                'required',
-                'string',
-                'unique:roles,name'
-            ]
-        ]);
+        $role = Role::create(['name' => $request->name]);
+        
+        activity()
+            ->causedBy(auth()->user())
+            ->performedOn($role)
+            ->withProperties(['name' => $role->name])
+            ->log("Role created: {$role->name}");
 
-        Role::create([
-            'name' => $request->name
-        ]);
-
-        return redirect('admin/roles')->with('status','Role Created Successfully');
+        return redirect('admin/roles')->with('status', 'Role Created Successfully');
     }
 
     public function edit(Role $role)
@@ -74,9 +70,16 @@ class RoleController extends Controller
 
     public function destroy($roleId)
     {
-        $role = Role::find($roleId);
+        $role = Role::findOrFail($roleId);
+        
+        activity()
+            ->causedBy(auth()->user())
+            ->performedOn($role)
+            ->withProperties(['name' => $role->name])
+            ->log("Role deleted: {$role->name}");
+        
         $role->delete();
-        return redirect('admin/roles')->with('status','Role Deleted Successfully');
+        return redirect('admin/roles')->with('status', 'Role Deleted Successfully');
     }
 
     public function addPermissionToRole($roleId)
@@ -97,13 +100,21 @@ class RoleController extends Controller
 
     public function givePermissionToRole(Request $request, $roleId)
     {
-        $request->validate([
-            'permission' => 'required'
-        ]);
-
         $role = Role::findOrFail($roleId);
-        $role->syncPermissions($request->permission);
+        
+        if($request->permission) {
+            $role->syncPermissions($request->permission);
+            
+            activity()
+                ->causedBy(auth()->user())
+                ->performedOn($role)
+                ->withProperties([
+                    'permissions' => $request->permission,
+                    'role' => $role->name
+                ])
+                ->log("Permissions updated for role {$role->name}");
+        }
 
-        return redirect()->back()->with('status','Permissions added to role');
+        return redirect('admin/roles')->with('status', 'Permissions added to Role');
     }
 }

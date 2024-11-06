@@ -29,19 +29,15 @@ class PermissionController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => [
-                'required',
-                'string',
-                'unique:permissions,name'
-            ]
-        ]);
+        $permission = Permission::create(['name' => $request->name]);
+        
+        activity()
+            ->causedBy(auth()->user())
+            ->performedOn($permission)
+            ->withProperties(['name' => $permission->name])
+            ->log("Permission created: {$permission->name}");
 
-        Permission::create([
-            'name' => $request->name
-        ]);
-
-        return redirect('admin/permissions')->with('status','Permission Created Successfully');
+        return redirect('admin/permissions')->with('status', 'Permission Created Successfully');
     }
 
     public function edit(Permission $permission)
@@ -68,8 +64,15 @@ class PermissionController extends Controller
 
     public function destroy($permissionId)
     {
-        $permission = Permission::find($permissionId);
+        $permission = Permission::findOrFail($permissionId);
+        
+        activity()
+            ->causedBy(auth()->user())
+            ->performedOn($permission)
+            ->withProperties(['name' => $permission->name])
+            ->log("Permission deleted: {$permission->name}");
+        
         $permission->delete();
-        return redirect('admin/permissions')->with('status','Permission Deleted Successfully');
+        return redirect('admin/permissions')->with('status', 'Permission Deleted Successfully');
     }
 }

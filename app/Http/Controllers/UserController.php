@@ -20,6 +20,7 @@ class UserController extends Controller
 
     public function index()
     {
+        
         $users = User::get();
         return view('role-permission.user.index', ['users' => $users]);
     }
@@ -45,9 +46,18 @@ class UserController extends Controller
                         'password' => Hash::make($request->password),
                     ]);
 
-        $user->syncRoles($request->roles);
+        $user->assignRole($request->roles);
+        
+        activity()
+            ->causedBy(auth()->user())
+            ->performedOn($user)
+            ->withProperties([
+                'roles' => $request->roles,
+                'name' => $user->name
+            ])
+            ->log("User created and assigned roles: {$user->name}");
 
-        return redirect('admin/users')->with('status','User created successfully with roles');
+        return redirect('admin/users')->with('status', 'User Created Successfully');
     }
 
     public function edit(User $user)
@@ -61,29 +71,28 @@ class UserController extends Controller
         ]);
     }
 
-    public function update(Request $request, User $user)
+    public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'password' => 'nullable|string|min:8|max:20',
-            'roles' => 'required'
-        ]);
-
-        $data = [
+        $user = User::findOrFail($id);
+        $user->update([
             'name' => $request->name,
             'email' => $request->email,
-        ];
-
-        if(!empty($request->password)){
-            $data += [
-                'password' => Hash::make($request->password),
-            ];
+        ]);
+        
+        if($request->roles) {
+            $user->syncRoles($request->roles);
         }
+        
+        activity()
+            ->causedBy(auth()->user())
+            ->performedOn($user)
+            ->withProperties([
+                'roles' => $request->roles,
+                'name' => $user->name
+            ])
+            ->log("User updated: {$user->name}");
 
-        $user->update($data);
-        $user->syncRoles($request->roles);
-
-        return redirect('admin/users')->with('status','User Updated Successfully with roles');
+        return redirect('admin/users')->with('status', 'User Updated Successfully');
     }
 
     public function destroy($userId)
@@ -92,5 +101,14 @@ class UserController extends Controller
         $user->delete();
 
         return redirect('admin/users')->with('status','User Delete Successfully');
+    }
+
+    public function assignRole(Request $request, User $user)
+    {
+        $user->syncRoles($request->roles);
+        
+        event('role.assigned', [$user, $request->roles]);
+        
+        return redirect()->back();
     }
 }

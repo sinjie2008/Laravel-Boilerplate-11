@@ -332,6 +332,11 @@ return [
             'url'  => 'admin/permissions',
             'icon' => 'fas fa-fw fa-key',
         ],
+        [
+            'text' => 'Activity Logs',
+            'url'  => 'admin/activity-logs',
+            'icon' => 'fas fa-history',
+        ],
 
     ],
 
