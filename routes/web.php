@@ -7,6 +7,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ActivityLogController;
+use App\Http\Controllers\DocumentController;
 use Spatie\Activitylog\Models\Activity;
 
 /*
@@ -31,9 +32,19 @@ Route::group(['middleware' => ['auth', 'role:super-admin|admin'], 'prefix' => 'a
 
     Route::resource('users', App\Http\Controllers\UserController::class);
     Route::get('users/{userId}/delete', [App\Http\Controllers\UserController::class, 'destroy']);
+    Route::middleware(['auth'])->group(function () {
+        Route::get('storage/{id}/{filename}', function ($id, $filename) {
+            $media = \Spatie\MediaLibrary\MediaCollections\Models\Media::findOrFail($id);
+            if ($media->file_name !== $filename) {
+                abort(404);
+            }
+            return response()->file($media->getPath());
+        })->name('media.download');
+
+        Route::resource('documents', DocumentController::class);
+    });
     Route::get('/activity-logs', [ActivityLogController::class, 'index'])->name('admin.activity-logs.index');
 });
-
 
 Route::get('/', function () {
     return view('welcome');

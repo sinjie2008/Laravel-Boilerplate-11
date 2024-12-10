@@ -337,7 +337,11 @@ return [
             'url'  => 'admin/activity-logs',
             'icon' => 'fas fa-history',
         ],
-
+        [
+            'text' => 'Document Management',
+            'url'  => 'admin/documents',
+            'icon' => 'fas fa-file-alt',
+        ],
     ],
 
     /*
@@ -494,4 +498,3 @@ return [
 
     'livewire' => false,
 ];
-
