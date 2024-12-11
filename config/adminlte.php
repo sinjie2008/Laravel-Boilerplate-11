@@ -342,6 +342,11 @@ return [
             'url'  => 'admin/documents',
             'icon' => 'fas fa-file-alt',
         ],
+        [
+            'text' => 'SQL Generator',
+            'url'  => 'admin/sql-generator',
+            'icon' => 'fas fa-database',
+        ],
     ],
 
     /*

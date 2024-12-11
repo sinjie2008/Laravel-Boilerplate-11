@@ -9,6 +9,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\DocumentController;
 use Spatie\Activitylog\Models\Activity;
+use App\Http\Controllers\SqlGeneratorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +45,9 @@ Route::group(['middleware' => ['auth', 'role:super-admin|admin'], 'prefix' => 'a
         Route::resource('documents', DocumentController::class);
     });
     Route::get('/activity-logs', [ActivityLogController::class, 'index'])->name('admin.activity-logs.index');
+
+    Route::get('/sql-generator', [SqlGeneratorController::class, 'index'])->name('sql.generator');
+    Route::post('/sql-generator', [SqlGeneratorController::class, 'generate'])->name('sql.generate');
 });
 
 Route::get('/', function () {
@@ -59,3 +63,6 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
         ->name('admin.activity-logs.index')
         ->middleware('permission:view activity logs');
 });
+
+Route::get('/sql-generator', [SqlGeneratorController::class, 'index'])->name('sql.generator');
+Route::post('/sql-generator', [SqlGeneratorController::class, 'generate'])->name('sql.generate');
