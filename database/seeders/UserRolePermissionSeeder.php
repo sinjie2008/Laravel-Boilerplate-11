@@ -48,6 +48,15 @@ class UserRolePermissionSeeder extends Seeder
             'view activity logs', 'view sqlgenerator',
         ]);
 
+        $staffRole->syncPermissions([
+            'view user',
+            'view product',
+            'view documents',
+            'create documents',
+            'update documents',
+            'view activity logs'
+        ]);
+
         // Create Users and Assign Roles
         $superAdminUser = User::firstOrCreate(
             ['email' => 'superadmin@gmail.com'],
