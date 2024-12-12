@@ -20,5 +20,6 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call(ActivityLogPermissionSeeder::class);
+        $this->call(UserRolePermissionSeeder::class);
     }
 }
