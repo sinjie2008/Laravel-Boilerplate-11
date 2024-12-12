@@ -43,6 +43,10 @@ class SqlGeneratorController extends Controller
             
             $queryResult = null;
             $error = null;
+
+            $sqlQuery = preg_replace('/^```sql\s*|```$/', '', $sqlQuery);
+            $sqlQuery = trim($sqlQuery);
+
             
             if (preg_match('/^(SELECT|SHOW|DESCRIBE|EXPLAIN)\\s/i', $sqlQuery)) {
                 try {
