@@ -1,0 +1,11 @@
+{
+    "name": "TodoList",
+    "alias": "todolist",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\TodoList\\App\\Providers\\TodoListServiceProvider"
+    ],
+    "files": []
+}

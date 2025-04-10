@@ -9,7 +9,7 @@
 @section('content')
 <div class="card">
     <div class="card-body">
-        <form method="post" action="{{ route('sql.generate') }}">
+        <form method="post" action="{{ route('admin.sql-generator.generate') }}"> {{-- Corrected route name --}}
             @csrf
             <div class="form-group">
                 <label for="naturalLanguage">Enter your request:</label>
@@ -25,6 +25,7 @@
             </div>
         @endif
 
+        {{-- Display API or Query Execution Errors --}}
         @if(isset($error))
             <div class="alert alert-danger mt-4">
                 Error: {{ $error }}
@@ -34,7 +35,7 @@
         @if(isset($queryResult))
             <div class="mt-4">
                 <h5>Query Results:</h5>
-                @if(count($queryResult) > 0)
+                @if(is_array($queryResult) && count($queryResult) > 0)
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped">
                             <thead>
@@ -55,11 +56,33 @@
                             </tbody>
                         </table>
                     </div>
-                @else
-                    <p>No results found.</p>
+                @elseif(is_array($queryResult)) {{-- Check if it's an array but empty --}}
+                    <p>Query executed successfully, but returned no results.</p>
+                @else {{-- Handle cases where $queryResult might not be an array (e.g., error occurred before query) --}}
+                    <p>No results to display.</p>
                 @endif
+            </div>
+        @endif
+
+         {{-- Display Table Structure --}}
+        @if(isset($tableStructure) && is_array($tableStructure) && count($tableStructure) > 0)
+            <div class="mt-5">
+                <h4>Database Structure Used for Generation:</h4>
+                <div style="max-height: 400px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; background-color: #f8f9fa;">
+                    @foreach($tableStructure as $tableName => $columns)
+                        <h5>Table: <code>{{ $tableName }}</code></h5>
+                        <ul>
+                            @foreach($columns as $column)
+                                <li>
+                                    <code>{{ $column->COLUMN_NAME }}</code>
+                                    (<small>{{ $column->DATA_TYPE }}{{ $column->IS_NULLABLE === 'YES' ? ', Nullable' : '' }}{{ !empty($column->COLUMN_KEY) ? ', Key: ' . $column->COLUMN_KEY : '' }}</small>)
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endforeach
+                </div>
             </div>
         @endif
     </div>
 </div>
-@stop 
+@stop

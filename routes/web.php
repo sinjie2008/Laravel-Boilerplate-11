@@ -9,7 +9,8 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\DocumentController;
 use Spatie\Activitylog\Models\Activity;
-use App\Http\Controllers\SqlGeneratorController;
+// Remove SqlGeneratorController import as it's now in the module
+// use App\Http\Controllers\SqlGeneratorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,12 +51,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function() {
         ->name('admin.activity-logs.index')
         ->middleware('permission:view activity logs');
 
-    Route::get('/sql-generator', [SqlGeneratorController::class, 'index'])
-        ->name('sql.generator')
-        ->middleware('permission:view sqlgenerator');
-    Route::post('/sql-generator', [SqlGeneratorController::class, 'generate'])
-        ->name('sql.generate')
-        ->middleware('permission:view sqlgenerator');
+    // Remove old SQL Generator routes from here
 });
 
 Route::get('/', function () {
@@ -72,5 +68,10 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
         ->middleware('permission:view activity logs');
 });
 
-Route::get('/sql-generator', [SqlGeneratorController::class, 'index'])->name('sql.generator');
-Route::post('/sql-generator', [SqlGeneratorController::class, 'generate'])->name('sql.generate');
+// Remove old SQL Generator routes from here as well
+
+Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
+    Route::resource('todolist', Modules\TodoList\App\Http\Controllers\TodoListController::class)->names('admin.todolist');
+    // Module routes are typically registered within their own service providers
+    // No need to add SqlGenerator routes here manually if the module provider handles it
+});

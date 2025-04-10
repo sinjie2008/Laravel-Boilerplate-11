@@ -1,0 +1,31 @@
+{
+    "name": "nwidart/sqlgenerator",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\SqlGenerator\\": "",
+            "Modules\\SqlGenerator\\App\\": "app/",
+            "Modules\\SqlGenerator\\Database\\Factories\\": "database/factories/",
+            "Modules\\SqlGenerator\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\SqlGenerator\\Tests\\": "tests/"
+        }
+    }
+}

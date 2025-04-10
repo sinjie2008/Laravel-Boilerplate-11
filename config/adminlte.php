@@ -318,6 +318,11 @@ return [
 
         ['header' => 'User Management'],
         [
+            'text' => 'TodoList',
+            'url'  => 'admin/todolist',
+            'icon' => 'fas fa-fw fa-list-alt',
+        ],
+        [
             'text' => 'Users',
             'url'  => 'admin/users',
             'icon' => 'fas fa-fw fa-users',

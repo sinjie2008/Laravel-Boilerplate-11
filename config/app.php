@@ -170,6 +170,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         App\Providers\ActivityLogServiceProvider::class,
+        // Modules\TodoList\App\Providers\TodoListServiceProvider::class,
     ])->toArray(),
 
     /*
