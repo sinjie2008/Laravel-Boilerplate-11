@@ -24,7 +24,8 @@ return [
          * `Spatie\Permission\Contracts\Role` contract.
          */
 
-        'role' => Spatie\Permission\Models\Role::class,
+        // Point to the Role model within the module
+        'role' => Modules\Role\App\Models\Role::class, 
 
     ],
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace Modules\Role\App\Models; // Updated namespace
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -16,4 +16,4 @@ class Role extends \Spatie\Permission\Models\Role
             ->logAll()
             ->setDescriptionForEvent(fn(string $eventName) => "Role has been {$eventName}");
     }
-} 
+}

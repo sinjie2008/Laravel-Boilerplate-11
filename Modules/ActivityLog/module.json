@@ -1,0 +1,11 @@
+{
+    "name": "ActivityLog",
+    "alias": "activitylog",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ActivityLog\\App\\Providers\\ActivityLogServiceProvider"
+    ],
+    "files": []
+}

@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Create Permission')
+@section('title', 'Add Permissions to Role') {{-- Updated title slightly --}}
 
 @section('content_header')
-    <h1>Create New Permission</h1>
+    <h1>Add Permissions to Role</h1> {{-- Updated header slightly --}}
 @stop
 
 @section('content')
@@ -21,7 +21,8 @@
                 </div>
                 <div class="card-body">
 
-                    <form action="{{ url('admin/roles/'.$role->id.'/give-permissions') }}" method="POST">
+                    {{-- Updated form action URL --}}
+                    <form action="{{ url('/admin/role/'.$role->id.'/give-permissions') }}" method="POST">
                         @csrf
                         @method('PUT')
 
@@ -53,7 +54,8 @@
                         </div>
                         <div class="mb-3">
                             <button type="submit" class="btn btn-primary">Update</button>
-                            <a href="{{ url('admin/roles') }}" class="btn btn-danger float-end">Back</a>
+                            {{-- Updated Back link URL --}}
+                            <a href="{{ url('/admin/role') }}" class="btn btn-danger float-end">Back</a>
                         </div>
                     </form>
                 </div>

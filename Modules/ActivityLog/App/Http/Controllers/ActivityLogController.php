@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Modules\ActivityLog\App\Http\Controllers; // Updated namespace
 
+use App\Http\Controllers\Controller; // Keep using the base Controller
 use Illuminate\Http\Request;
 use Spatie\Activitylog\Models\Activity;
 use Illuminate\Support\Facades\DB;
@@ -10,7 +11,8 @@ class ActivityLogController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:view activity logs');
+        // The permission middleware will be handled by the route definition later
+        // $this->middleware('permission:view activity logs'); 
     }
 
     public function index(Request $request)
@@ -26,6 +28,7 @@ class ActivityLogController extends Controller
             ->orderBy('activity_log.created_at', 'DESC')
             ->paginate(10);
         
-        return view('activity-logs.index', compact('activities', 'search'));
+        // Updated view path to use the module's namespace
+        return view('activitylog::index', compact('activities', 'search')); 
     }
-} 
+}

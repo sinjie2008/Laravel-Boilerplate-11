@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Permissions')
+@section('title', 'Activity Logs') {{-- Updated title --}}
 
 @section('content_header')
     <div class="row">
@@ -29,7 +29,7 @@
 
                         </div>
                         <div class="col-md-6">
-                            <form action="" method="GET" class="float-end">
+                            <form action="{{ route('activitylog.index') }}" method="GET" class="float-end"> {{-- Use module route name --}}
                                 <div class="input-group">
                                     <input type="text" name="search" value="{{ $search ?? '' }}" class="form-control" placeholder="Search...">
                                     <button type="submit" class="btn btn-primary">
@@ -69,7 +69,7 @@
                         </tbody>
                     </table>
 
-                    {{ $activities->links() }} 
+                    {{-- Removed default pagination link, footer handles it --}}
                 </div>
 
                 <div class="card-footer">
@@ -80,16 +80,17 @@
         </div>
     </div>
 
-    @stop
+@stop
 
 @section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
+    {{-- Removed link to /css/admin_custom.css as it should be handled globally --}}
 @stop
 
 @section('js')
     <script>
-        $(document).ready(function() {
-            $('.table').DataTable();
-        });
+        // Removed DataTable initialization as it might conflict or be handled globally
+        // $(document).ready(function() {
+        //     $('.table').DataTable(); 
+        // });
     </script>
 @stop

@@ -329,8 +329,9 @@ return [
         ],
         [
             'text' => 'Roles',
-            'url'  => 'admin/roles',
+            'route'  => 'admin.role.index', // Use named route from module
             'icon' => 'fas fa-fw fa-user-shield',
+            'can'  => 'view role', // Add permission check for menu visibility
         ],
         [
             'text' => 'Permissions',
@@ -339,8 +340,9 @@ return [
         ],
         [
             'text' => 'Activity Logs',
-            'url'  => 'admin/activity-logs',
+            'route'  => 'activitylog.index', // Use the named route from the module
             'icon' => 'fas fa-history',
+            'can'  => 'view activity logs', // Add permission check directly to the menu item
         ],
         [
             'text' => 'Document Management',

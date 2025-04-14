@@ -1,17 +1,19 @@
 <?php
 
-namespace  App\Http\Controllers;
+namespace Modules\Role\App\Http\Controllers; // Updated namespace
 
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
-use JeroenNoten\LaravelAdminLte\Http\Controllers\Controller;
+// Assuming AdminLTE controller is still needed globally or within the module
+use JeroenNoten\LaravelAdminLte\Http\Controllers\Controller; 
 
 class RoleController extends Controller
 {
     public function __construct()
     {
+        // Permissions remain the same for now
         $this->middleware('permission:view role', ['only' => ['index']]);
         $this->middleware('permission:create role', ['only' => ['create','store','addPermissionToRole','givePermissionToRole']]);
         $this->middleware('permission:update role', ['only' => ['update','edit']]);
@@ -28,12 +30,14 @@ class RoleController extends Controller
             ->orderBy('id', 'DESC')
             ->paginate(10);
         
-        return view('role-permission.role.index', compact('roles', 'search'));
+        // Updated view path
+        return view('role::index', compact('roles', 'search')); 
     }
 
     public function create()
     {
-        return view('role-permission.role.create');
+        // Updated view path
+        return view('role::create'); 
     }
 
 
@@ -47,12 +51,14 @@ class RoleController extends Controller
             ->withProperties(['name' => $role->name])
             ->log("Role created: {$role->name}");
 
-        return redirect('admin/roles')->with('status', 'Role Created Successfully');
+        // Updated redirect path (assuming '/admin/role' prefix later)
+        return redirect('/admin/role')->with('status', 'Role Created Successfully'); 
     }
 
     public function edit(Role $role)
     {
-        return view('role-permission.role.edit',[
+        // Updated view path
+        return view('role::edit',[ 
             'role' => $role
         ]);
     }
@@ -72,7 +78,8 @@ class RoleController extends Controller
             'name' => $request->name
         ]);
 
-        return redirect('admin/roles')->with('status','Role Updated Successfully');
+        // Updated redirect path
+        return redirect('/admin/role')->with('status','Role Updated Successfully'); 
     }
 
     public function destroy($roleId)
@@ -86,7 +93,8 @@ class RoleController extends Controller
             ->log("Role deleted: {$role->name}");
         
         $role->delete();
-        return redirect('admin/roles')->with('status', 'Role Deleted Successfully');
+        // Updated redirect path
+        return redirect('/admin/role')->with('status', 'Role Deleted Successfully'); 
     }
 
     public function addPermissionToRole($roleId)
@@ -98,7 +106,8 @@ class RoleController extends Controller
                                 ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
                                 ->all();
 
-        return view('role-permission.role.add-permissions', [
+        // Updated view path
+        return view('role::add-permissions', [ 
             'role' => $role,
             'permissions' => $permissions,
             'rolePermissions' => $rolePermissions
@@ -122,6 +131,7 @@ class RoleController extends Controller
                 ->log("Permissions updated for role {$role->name}");
         }
 
-        return redirect('admin/roles')->with('status', 'Permissions added to Role');
+        // Updated redirect path
+        return redirect('/admin/role')->with('status', 'Permissions added to Role'); 
     }
 }

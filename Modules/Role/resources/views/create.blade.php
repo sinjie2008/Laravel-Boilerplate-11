@@ -1,11 +1,11 @@
 @extends('adminlte::page')
 
-@section('title', 'Create Permission')
+@section('title', 'Create Role') {{-- Updated title --}}
 
 @section('content_header')
     <div class="row">
         <div class="col-sm-6">
-            <h1>Create Roles</h1>
+            <h1>Create Role</h1> {{-- Updated header --}}
         </div><!-- /.col -->
         <div class="col-sm-6">
         
@@ -28,7 +28,8 @@
 
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ url('admin/roles') }}" method="POST">
+                    {{-- Updated form action URL --}}
+                    <form action="{{ url('/admin/role') }}" method="POST">
                         @csrf
 
                         <div class="mb-3">
@@ -37,7 +38,8 @@
                         </div>
                         <div class="mb-3">
                             <button type="submit" class="btn btn-primary">Save</button>
-                            <a href="{{ url('admin/roles') }}" class="btn btn-danger float-end">Back</a>
+                            {{-- Updated Back link URL --}}
+                            <a href="{{ url('/admin/role') }}" class="btn btn-danger float-end">Back</a>
                         </div>
                     </form>
                 </div>

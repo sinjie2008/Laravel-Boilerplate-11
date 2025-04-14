@@ -3,10 +3,9 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\ActivityLogController;
+// use App\Http\Controllers\ActivityLogController; // Removed as it's now in the module
 use App\Http\Controllers\DocumentController;
 use Spatie\Activitylog\Models\Activity;
 // Remove SqlGeneratorController import as it's now in the module
@@ -27,10 +26,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function() {
     Route::resource('permissions', App\Http\Controllers\PermissionController::class)->middleware('permission:view permission|create permission|update permission|delete permission');
     Route::get('permissions/{permissionId}/delete', [App\Http\Controllers\PermissionController::class, 'destroy'])->middleware('permission:delete permission');
 
-    Route::resource('roles', App\Http\Controllers\RoleController::class)->middleware('permission:view role|create role|update role|delete role');
-    Route::get('roles/{roleId}/delete', [App\Http\Controllers\RoleController::class, 'destroy'])->middleware('permission:delete role');
-    Route::get('roles/{roleId}/give-permissions', [App\Http\Controllers\RoleController::class, 'addPermissionToRole'])->middleware('permission:update role');
-    Route::put('roles/{roleId}/give-permissions', [App\Http\Controllers\RoleController::class, 'givePermissionToRole'])->middleware('permission:update role');
+    // Role routes moved to Modules/Role/routes/web.php
 
     Route::resource('users', App\Http\Controllers\UserController::class)->middleware('permission:view user|create user|update user|delete user');
     Route::get('users/{userId}/delete', [App\Http\Controllers\UserController::class, 'destroy'])->middleware('permission:delete user');
@@ -47,9 +43,9 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function() {
         Route::resource('documents', DocumentController::class)->middleware('permission:view documents|create documents|update documents|delete documents');
     });
     
-    Route::get('/activity-logs', [ActivityLogController::class, 'index'])
-        ->name('admin.activity-logs.index')
-        ->middleware('permission:view activity logs');
+    // Route::get('/activity-logs', [ActivityLogController::class, 'index']) // Removed, handled by module
+    //     ->name('admin.activity-logs.index')
+    //     ->middleware('permission:view activity logs');
 
     // Remove old SQL Generator routes from here
 });
@@ -62,11 +58,11 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::prefix('admin')->middleware(['auth'])->group(function () {
-    Route::get('/activity-logs', [ActivityLogController::class, 'index'])
-        ->name('admin.activity-logs.index')
-        ->middleware('permission:view activity logs');
-});
+// Route::prefix('admin')->middleware(['auth'])->group(function () { // Removed redundant group
+//     Route::get('/activity-logs', [ActivityLogController::class, 'index']) // Removed, handled by module
+//         ->name('admin.activity-logs.index')
+//         ->middleware('permission:view activity logs');
+// });
 
 // Remove old SQL Generator routes from here as well
 
