@@ -317,11 +317,7 @@ return [
         ],
 
         ['header' => 'User Management'],
-        [
-            'text' => 'TodoList',
-            'url'  => 'admin/todolist',
-            'icon' => 'fas fa-fw fa-list-alt',
-        ],
+        // TodoList will be added dynamically if active
         [
             'text' => 'Users',
             'url'  => 'admin/users',
@@ -338,21 +334,15 @@ return [
             'url'  => 'admin/permissions',
             'icon' => 'fas fa-fw fa-key',
         ],
+        // Activity Logs will be added dynamically if active
+        // Document Management will be added dynamically if active
+        // SQL Generator will be added dynamically if active
+        ['header' => 'System'], // Add a header for system modules
         [
-            'text' => 'Activity Logs',
-            'route'  => 'activitylog.index', // Use the named route from the module
-            'icon' => 'fas fa-history',
-            'can'  => 'view activity logs', // Add permission check directly to the menu item
-        ],
-        [
-            'text' => 'Document Management',
-            'url'  => 'admin/documents',
-            'icon' => 'fas fa-file-alt',
-        ],
-        [
-            'text' => 'SQL Generator',
-            'url'  => 'admin/sql-generator',
-            'icon' => 'fas fa-database',
+            'text' => 'Module Manager',
+            'route'  => 'module-manager.index', // Use the named route from the module
+            'icon' => 'fas fa-puzzle-piece', // Or 'fas fa-cogs'
+            // 'can'  => 'manage modules', // Optional: Add permission check if needed
         ],
     ],
 
@@ -392,7 +382,7 @@ return [
 
     'plugins' => [
         'Datatables' => [
-            'active' => false,
+            'active' => true, // Enable DataTables
             'files' => [
                 [
                     'type' => 'js',

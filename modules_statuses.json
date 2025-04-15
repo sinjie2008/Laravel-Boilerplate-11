@@ -3,5 +3,6 @@
     "TodoList": true,
     "SqlGenerator": true,
     "ActivityLog": true,
-    "Role": true
+    "Role": true,
+    "ModuleManager": true
 }

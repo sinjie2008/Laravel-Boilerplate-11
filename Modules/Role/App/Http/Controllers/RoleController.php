@@ -20,18 +20,22 @@ class RoleController extends Controller
         $this->middleware('permission:delete role', ['only' => ['destroy']]);
     }
 
-    public function index(Request $request)
+    public function index(Request $request) // Request might still be needed for other purposes
     {
-        $search = $request->input('search');
-        $roles = DB::table('roles')
-            ->when($search, function ($query) use ($search) {
-                return $query->where('name', 'like', "%{$search}%");
-            })
-            ->orderBy('id', 'DESC')
-            ->paginate(10);
-        
-        // Updated view path
-        return view('role::index', compact('roles', 'search')); 
+        // Remove search and pagination logic
+        // $search = $request->input('search');
+        // $roles = DB::table('roles')
+        //     ->when($search, function ($query) use ($search) {
+        //         return $query->where('name', 'like', "%{$search}%");
+        //     })
+        //     ->orderBy('id', 'DESC')
+        //     ->paginate(10);
+
+        // Fetch all roles - DataTables will handle searching/pagination client-side
+        $roles = Role::orderBy('id', 'DESC')->get(); // Use Eloquent model for consistency
+
+        // Updated view path, remove 'search' compact variable
+        return view('role::index', compact('roles'));
     }
 
     public function create()

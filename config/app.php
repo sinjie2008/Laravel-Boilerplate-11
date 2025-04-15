@@ -168,6 +168,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\DynamicMenuServiceProvider::class, // Add the new provider
         Spatie\Permission\PermissionServiceProvider::class,
         // App\Providers\ActivityLogServiceProvider::class, // Removed - Handled by module
         // Modules\TodoList\App\Providers\TodoListServiceProvider::class,

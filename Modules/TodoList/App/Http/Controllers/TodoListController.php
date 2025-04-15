@@ -5,18 +5,42 @@ namespace Modules\TodoList\App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Modules\TodoList\App\Models\Todo as Todo;
+// Remove Response import if not used elsewhere, keep for now
+use Modules\TodoList\App\Models\Todo;
+use Yajra\DataTables\Facades\DataTables; // Import DataTables facade
 
 class TodoListController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $todos = Todo::all();
-        return view('todolist::index', compact('todos'));
+        if ($request->ajax()) {
+            $data = Todo::select(['id', 'title', 'description', 'completed']); // Select necessary columns
+            return DataTables::of($data)
+                    ->addColumn('action', function($row){
+                           $showUrl = route('admin.todolist.show', $row->id);
+                           $editUrl = route('admin.todolist.edit', $row->id);
+                           $deleteUrl = route('admin.todolist.destroy', $row->id);
+                           $csrf = csrf_field();
+                           $method = method_field('DELETE');
+
+                           $btn = '<a href="'.$showUrl.'" class="btn btn-info btn-sm">Show</a> ';
+                           $btn .= '<a href="'.$editUrl.'" class="btn btn-primary btn-sm">Edit</a> ';
+                           $btn .= '<form action="'.$deleteUrl.'" method="POST" style="display:inline-block;">'.$csrf.$method.'<button type="submit" class="btn btn-danger btn-sm">Delete</button></form>';
+
+                            return $btn;
+                    })
+                    ->editColumn('completed', function($row) {
+                        return $row->completed ? 'Yes' : 'No';
+                    })
+                    ->rawColumns(['action']) // Allow HTML in action column
+                    ->make(true);
+        }
+
+        // If not an AJAX request, just load the view
+        return view('todolist::index');
     }
 
     /**
