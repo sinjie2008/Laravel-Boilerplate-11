@@ -1,6 +1,7 @@
 @extends('adminlte::page')
 
-@section('title', 'Permissions')
+{{-- Update title if needed --}}
+@section('title', 'Documents')
 
 @section('content_header')
     <div class="row">
@@ -8,7 +9,7 @@
             <h1>List Documents</h1>
         </div><!-- /.col -->
         <div class="col-sm-6">
-        
+
         </div>
     </div>
 @stop
@@ -26,7 +27,8 @@
             <div class="card">
                 <div class="card-header">
                     @can('create documents')
-                    <a href="{{ route('documents.create') }}" class="btn btn-primary">Upload New Document</a>
+                    {{-- Update route name for the module --}}
+                    <a href="{{ route('document.documents.create') }}" class="btn btn-primary">Upload New Document</a>
                     @endcan
                 </div>
 
@@ -41,12 +43,15 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {{-- Ensure $documents variable is passed correctly from the controller --}}
                             @foreach($documents as $document)
                                 <tr>
                                     <td>{{ $document->name }}</td>
                                     <td>{{ $document->description }}</td>
                                     <td>
+                                        {{-- Ensure model variable and media collection name are correct --}}
                                         @if($document->hasMedia('documents'))
+                                            {{-- Ensure getFileUrl() method exists and works --}}
                                             <a href="{{ $document->getFileUrl() }}" target="_blank" class="btn btn-info">
                                                 View File
                                             </a>
@@ -54,11 +59,13 @@
                                     </td>
                                     <td>
                                         @can('update documents')
-                                        <a href="{{ route('documents.edit', $document) }}" class="btn btn-primary">Edit</a>
+                                        {{-- Update route name for the module --}}
+                                        <a href="{{ route('document.documents.edit', $document) }}" class="btn btn-primary">Edit</a>
                                         @endcan
 
                                         @can('delete documents')
-                                        <form action="{{ route('documents.destroy', $document) }}" method="POST" class="d-inline">
+                                        {{-- Update route name for the module --}}
+                                        <form action="{{ route('document.documents.destroy', $document) }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
@@ -72,7 +79,7 @@
                 </div>
 
                 <div class="card-footer">
-
+                    {{-- Add pagination links if needed --}}
                 </div>
             </div>
         </div>

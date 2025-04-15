@@ -48,7 +48,14 @@ class DynamicMenuServiceProvider extends ServiceProvider
                     'icon' => 'fas fa-database',
                     'order' => 55 // Place after 'Activity Logs'
                 ],
-                // Note: 'Role' and 'DocumentManagement' seem to be core or handled differently, not included here.
+                'Document' => [ // Add entry for the Document module
+                    'text' => 'Documents',
+                    'route'  => 'document.documents.index', // Use the named route from the module
+                    'icon' => 'fas fa-fw fa-file-alt', // Document icon
+                    'can'  => 'view documents', // Add permission check
+                    'order' => 50 // Place it after Activity Logs, before SQL Generator
+                ],
+                // Note: 'Role' seems to be core or handled differently, not included here.
                 // 'ModuleManager' is handled statically in config/adminlte.php
             ];
 

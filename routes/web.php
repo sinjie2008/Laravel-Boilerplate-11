@@ -6,7 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PermissionController;
 // use App\Http\Controllers\ActivityLogController; // Removed as it's now in the module
-use App\Http\Controllers\DocumentController;
+// use App\Http\Controllers\DocumentController; // Removed as it's now in the module
 use Spatie\Activitylog\Models\Activity;
 // Remove SqlGeneratorController import as it's now in the module
 // use App\Http\Controllers\SqlGeneratorController;
@@ -40,9 +40,9 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function() {
             return response()->file($media->getPath());
         })->name('media.download');
 
-        Route::resource('documents', DocumentController::class)->middleware('permission:view documents|create documents|update documents|delete documents');
+        // Route::resource('documents', DocumentController::class)->middleware('permission:view documents|create documents|update documents|delete documents'); // Moved to Document module routes
     });
-    
+
     // Route::get('/activity-logs', [ActivityLogController::class, 'index']) // Removed, handled by module
     //     ->name('admin.activity-logs.index')
     //     ->middleware('permission:view activity logs');

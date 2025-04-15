@@ -4,5 +4,6 @@
     "SqlGenerator": true,
     "ActivityLog": true,
     "Role": true,
-    "ModuleManager": true
+    "ModuleManager": true,
+    "Document": true
 }

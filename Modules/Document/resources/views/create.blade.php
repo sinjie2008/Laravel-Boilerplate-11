@@ -8,7 +8,7 @@
             <h1>Create Documents</h1>
         </div><!-- /.col -->
         <div class="col-sm-6">
-        
+
         </div>
     </div>
 @stop
@@ -20,7 +20,8 @@
             <div class="card">
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('documents.store') }}" enctype="multipart/form-data">
+                    {{-- Update route name for the module --}}
+                    <form method="POST" action="{{ route('document.documents.store') }}" enctype="multipart/form-data">
                         @csrf
 
                         <div class="mb-3">
@@ -55,7 +56,8 @@
 
                         <div class="mb-3">
                             <button type="submit" class="btn btn-primary">Upload Document</button>
-                            <a href="{{ route('documents.index') }}" class="btn btn-secondary">Cancel</a>
+                            {{-- Update route name for the module --}}
+                            <a href="{{ route('document.documents.index') }}" class="btn btn-secondary">Cancel</a>
                         </div>
                     </form>
                 </div>

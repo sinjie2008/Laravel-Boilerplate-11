@@ -1,14 +1,16 @@
 @extends('adminlte::page')
 
-@section('title', 'Create Permission')
+{{-- Update title if needed --}}
+@section('title', 'Edit Document')
 
 @section('content_header')
     <div class="row">
         <div class="col-sm-6">
-            <h1>Edit Permissions</h1>
+            {{-- Update heading --}}
+            <h1>Edit Document</h1>
         </div><!-- /.col -->
         <div class="col-sm-6">
-        
+
         </div>
     </div>
 @stop
@@ -20,7 +22,8 @@
             <div class="card">
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('documents.update', $document) }}" enctype="multipart/form-data">
+                    {{-- Update route name for the module --}}
+                    <form method="POST" action="{{ route('document.documents.update', $document) }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
 
@@ -45,15 +48,17 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="document">Document</label>
+                            <label for="document">Document (Optional: Replace existing)</label>
                             <input type="file" class="form-control @error('document') is-invalid @enderror" id="document" name="document">
                             @error('document')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
+                            {{-- Ensure model variable and media collection name are correct --}}
                             @if($document->hasMedia('documents'))
                                 <div class="mt-2">
+                                    {{-- Ensure getFirstMediaUrl works as expected --}}
                                     <p>Current file: <a href="{{ $document->getFirstMediaUrl('documents') }}" target="_blank">View File</a></p>
                                 </div>
                             @endif
@@ -61,7 +66,8 @@
 
                         <div class="mb-3"">
                             <button type="submit" class="btn btn-primary">Update Document</button>
-                            <a href="{{ route('documents.index') }}" class="btn btn-secondary">Cancel</a>
+                            {{-- Update route name for the module --}}
+                            <a href="{{ route('document.documents.index') }}" class="btn btn-secondary">Cancel</a>
                         </div>
                     </form>
                 </div>
