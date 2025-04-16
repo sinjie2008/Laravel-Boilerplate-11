@@ -290,7 +290,12 @@ class ModuleManagerController extends Controller
                 Log::info("Module [{$module}] disabled before uninstall.");
             }
 
-            // 2. Delete the module files
+            // 2. Rollback Migrations (Drop Tables)
+            Log::info("Attempting to rollback migrations for module: {$module}");
+            Artisan::call('module:migrate-rollback', ['module' => $module, '--force' => true]);
+            Log::info("Migration rollback output for {$module}: " . Artisan::output()); // Log output
+
+            // 3. Delete the module files
             $modulePath = $moduleInstance->getPath();
             Log::info("Attempting to delete module directory: {$modulePath}");
             if (File::isDirectory($modulePath)) {
@@ -314,11 +319,11 @@ class ModuleManagerController extends Controller
             }
 
 
-            // 3. Clear cache
+            // 4. Clear cache
             Artisan::call('optimize:clear');
              Log::info("Cache cleared after uninstalling {$module}.");
 
-            // 4. Update composer autoload (important!)
+            // 5. Update composer autoload (important!)
             try {
                 $process = new Process(['composer', 'dump-autoload'], base_path());
                 $process->mustRun();
