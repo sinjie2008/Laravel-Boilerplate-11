@@ -55,6 +55,13 @@ class DynamicMenuServiceProvider extends ServiceProvider
                     'can'  => 'view documents', // Add permission check
                     'order' => 50 // Place it after Activity Logs, before SQL Generator
                 ],
+                'BackupManager' => [ // Add entry for the BackupManager module
+                    'text' => 'Backup Manager',
+                    'route'  => 'backup-manager.index', // Use the named route from the module
+                    'icon' => 'fas fa-hdd', // Hard drive icon for backups
+                    // 'can'  => 'manage backups', // Optional permission check
+                    'order' => 60 // Place it after SQL Generator
+                ],
                 // Note: 'Role' seems to be core or handled differently, not included here.
                 // 'ModuleManager' is handled statically in config/adminlte.php
             ];

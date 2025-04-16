@@ -51,10 +51,46 @@
                             </td>
                             <td>{{ $module->getPath() }}</td>
                             <td>
+                                {{-- View Button Logic --}}
+                                @php
+                                    $moduleName = $module->getName();
+                                    $lowerModuleName = strtolower($moduleName);
+                                    $kebabModuleName = strtolower(preg_replace('/(?<!^)[A-Z]/', '-$0', $moduleName));
+
+                                    // Define potential route name patterns
+                                    $patterns = [
+                                        // 1. Admin prefix + Kebab-case: admin.module-name.index (e.g., admin.sql-generator.index)
+                                        'admin.' . $kebabModuleName . '.index',
+                                        // 2. Admin prefix + Lowercase: admin.module.index (e.g., admin.role.index)
+                                        'admin.' . $lowerModuleName . '.index',
+                                        // 3. Resource route: module.pluralModule.index (e.g., document.documents.index)
+                                        $lowerModuleName . '.' . Illuminate\Support\Str::plural($lowerModuleName) . '.index',
+                                        // 4. Simple lowercase: module.index (e.g., activitylog.index)
+                                        $lowerModuleName . '.index',
+                                        // 5. Kebab-case: module-name.index (e.g., backup-manager.index)
+                                        $kebabModuleName . '.index',
+                                    ];
+
+                                    $viewRouteName = null;
+                                    foreach ($patterns as $pattern) {
+                                        if (Route::has($pattern)) {
+                                            $viewRouteName = $pattern;
+                                            break; // Use the first match found
+                                        }
+                                    }
+                                @endphp
+                                {{-- Always display the View button and ensure it's clickable --}}
+                                <a href="{{ $viewRouteName ? route($viewRouteName) : '#' }}"
+                                   class="btn btn-info btn-sm"
+                                   style="display: inline-block;">
+                                    View
+                                </a>
+
+                                {{-- Activate/Deactivate Button --}}
                                 @if ($module->isEnabled())
                                     {{-- Deactivate Button --}}
-                                    @if (strtolower($module->getName()) !== 'modulemanager') {{-- Prevent deactivating self --}}
-                                        <form action="{{ route('module-manager.deactivate', $module->getName()) }}" method="POST" style="display: inline-block;">
+                                    @if (strtolower($moduleName) !== 'modulemanager') {{-- Prevent deactivating self --}}
+                                        <form action="{{ route('module-manager.deactivate', $moduleName) }}" method="POST" style="display: inline-block;">
                                             @csrf
                                             <button type="submit" class="btn btn-warning btn-sm">Deactivate</button>
                                         </form>
@@ -63,15 +99,15 @@
                                     @endif
                                 @else
                                     {{-- Activate Button --}}
-                                    <form action="{{ route('module-manager.activate', $module->getName()) }}" method="POST" style="display: inline-block;">
+                                    <form action="{{ route('module-manager.activate', $moduleName) }}" method="POST" style="display: inline-block;">
                                         @csrf
                                         <button type="submit" class="btn btn-success btn-sm">Activate</button>
                                     </form>
                                 @endif
 
                                 {{-- Uninstall Button --}}
-                                @if (strtolower($module->getName()) !== 'modulemanager') {{-- Prevent uninstalling self --}}
-                                    <form action="{{ route('module-manager.uninstall', $module->getName()) }}" method="POST" style="display: inline-block;" onsubmit="return confirm('WARNING: This will DELETE the module files ({{ $module->getName() }}). This action cannot be undone. Are you absolutely sure?');">
+                                @if (strtolower($moduleName) !== 'modulemanager') {{-- Prevent uninstalling self --}}
+                                    <form action="{{ route('module-manager.uninstall', $moduleName) }}" method="POST" style="display: inline-block;" onsubmit="return confirm('WARNING: This will DELETE the module files ({{ $moduleName }}). This action cannot be undone. Are you absolutely sure?');">
                                         @csrf
                                         <button type="submit" class="btn btn-danger btn-sm">Uninstall</button>
                                     </form>
