@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Config;
+use Modules\SqlGenerator\App\Models\SqlGeneratorSetting; // Import the model
 
 class SqlGeneratorController extends Controller
 {
@@ -17,31 +18,38 @@ class SqlGeneratorController extends Controller
         $this->middleware('permission:view sqlgenerator', ['only' => ['index', 'generate']]); // Added generate to middleware
     }
 
-    private function getApiUrl()
-    {
-        // Use module config: config('sqlgenerator.api_url')
-        return config('sqlgenerator.api_url');
-    }
-
-    private function getApiKey()
-    {
-        // Use module config: config('sqlgenerator.api_key')
-        return config('sqlgenerator.api_key');
-    }
+    // Removed getApiUrl() and getApiKey() methods
 
     public function index()
     {
         $tableStructure = $this->getTableStructure();
+        $settings = SqlGeneratorSetting::first(); // Get settings from DB
         // Use module view: sqlgenerator::index
-        return view('sqlgenerator::index', compact('tableStructure'));
+        return view('sqlgenerator::index', compact('tableStructure', 'settings')); // Pass settings to view
     }
 
     public function generate(Request $request)
     {
         $naturalLanguage = $request->input('naturalLanguage');
+        $apiUrl = $request->input('sql_generator_api_url'); // Get URL from request
+        $apiKey = $request->input('sql_generator_api_key'); // Get Key from request
         $tableStructure = $this->getTableStructure();
 
-        $response = $this->sendApiRequest($naturalLanguage, $tableStructure);
+        // Save/Update settings in the database
+        $settings = SqlGeneratorSetting::updateOrCreate(
+            ['id' => 1], // Assuming only one settings record
+            ['api_url' => $apiUrl, 'api_key' => $apiKey]
+        );
+
+        // Use the saved/updated settings for the API call
+        $response = $this->sendApiRequest($naturalLanguage, $tableStructure, $settings->api_url, $settings->api_key);
+
+        // Check for errors returned directly from sendApiRequest (e.g., missing credentials)
+        if (isset($response['error'])) {
+             // Pass settings back to the view on error
+             return view('sqlgenerator::index', compact('tableStructure', 'naturalLanguage', 'settings'))
+                ->withError($response['error']);
+        }
 
         if (isset($response['choices'][0]['message']['content'])) {
             $sqlQuery = trim($response['choices'][0]['message']['content']);
@@ -64,16 +72,16 @@ class SqlGeneratorController extends Controller
                  $error = 'Only SELECT, SHOW, DESCRIBE, or EXPLAIN queries can be executed directly. The generated query was: ' . $sqlQuery;
                  $sqlQuery = $sqlQuery; // Keep the generated query for display
                  $queryResult = []; // Set empty result
-            }
+             }
 
-            // Use module view: sqlgenerator::index
-            return view('sqlgenerator::index', compact('tableStructure', 'naturalLanguage', 'sqlQuery', 'queryResult', 'error'));
-        }
+             // Pass settings back to the view on success
+             return view('sqlgenerator::index', compact('tableStructure', 'naturalLanguage', 'sqlQuery', 'queryResult', 'error', 'settings'));
+         }
 
-        // Use module view: sqlgenerator::index
-        return view('sqlgenerator::index', compact('tableStructure', 'naturalLanguage'))
-            ->withError('Error processing API response');
-    }
+         // Pass settings back to the view on API processing error
+         return view('sqlgenerator::index', compact('tableStructure', 'naturalLanguage', 'settings'))
+             ->withError('Error processing API response');
+     }
 
     private function getTableStructure()
     {
@@ -92,14 +100,13 @@ class SqlGeneratorController extends Controller
         return $tables;
     }
 
-    private function sendApiRequest($naturalLanguage, $tableStructure)
+    // Accept API URL and Key as parameters
+    private function sendApiRequest($naturalLanguage, $tableStructure, $apiUrl, $apiKey)
     {
-        $apiUrl = $this->getApiUrl();
-        $apiKey = $this->getApiKey();
-
+        // Use the provided URL and Key directly
         if (empty($apiUrl) || empty($apiKey)) {
              // Return an error structure compatible with the view
-            return ['error' => 'API URL or API Key is not configured in the SqlGenerator module config or .env file.'];
+            return ['error' => 'API URL or API Key must be provided.'];
         }
 
         $response = Http::withHeaders([

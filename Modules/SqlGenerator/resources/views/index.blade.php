@@ -12,6 +12,16 @@
         <form method="post" action="{{ route('admin.sql-generator.generate') }}"> {{-- Corrected route name --}}
             @csrf
             <div class="form-group">
+                <label for="sql_generator_api_url">API URL:</label>
+                {{-- Use settings from DB, fallback to old input or empty --}}
+                <input type="text" id="sql_generator_api_url" name="sql_generator_api_url" class="form-control" value="{{ old('sql_generator_api_url', $settings->api_url ?? '') }}" required>
+            </div>
+            <div class="form-group">
+                <label for="sql_generator_api_key">API Key:</label>
+                 {{-- Use settings from DB, fallback to old input or empty --}}
+                <input type="text" id="sql_generator_api_key" name="sql_generator_api_key" class="form-control" value="{{ old('sql_generator_api_key', $settings->api_key ?? '') }}" required>
+            </div>
+            <div class="form-group">
                 <label for="naturalLanguage">Enter your request:</label>
                 <textarea id="naturalLanguage" name="naturalLanguage" class="form-control" rows="4" required>{{ $naturalLanguage ?? '' }}</textarea>
             </div>
