@@ -15,7 +15,7 @@ use Modules\ModuleManager\App\Http\Controllers\ModuleManagerController;
 */
 
 Route::group(['middleware' => ['web', 'auth']], function () { // Added auth middleware
-    Route::prefix('module-manager')->name('module-manager.')->group(function() {
+    Route::prefix('admin/module-manager')->name('module-manager.')->group(function() { // Changed prefix to admin/module-manager
         Route::get('/', [ModuleManagerController::class, 'index'])->name('index');
         Route::post('/activate/{module}', [ModuleManagerController::class, 'activate'])->name('activate');
         Route::post('/deactivate/{module}', [ModuleManagerController::class, 'deactivate'])->name('deactivate');

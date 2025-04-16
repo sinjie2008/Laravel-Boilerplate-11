@@ -17,5 +17,5 @@ use Modules\ActivityLog\App\Http\Controllers\ActivityLogController;
 // Apply auth, verified, and permission middleware to the route group
 Route::middleware(['auth', 'verified', 'permission:view activity logs'])->group(function () {
     // Define only the index route for activity logs
-    Route::get('activitylog', [ActivityLogController::class, 'index'])->name('activitylog.index');
+    Route::get('admin/activitylog', [ActivityLogController::class, 'index'])->name('activitylog.index'); // Changed path to admin/activitylog
 });
