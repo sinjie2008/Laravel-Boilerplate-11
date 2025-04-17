@@ -7,15 +7,21 @@ Boiler Plate Default Function
 
 Admin Protal
 - Theme AdminLTE
--  Role Premission
--  Activity Log
 -  Pagination
 -  Search
 -  Query Builder
 -  Backup
--  Media
 -  AI Chat to db
 -  API Passport
+
+Modules Convert
+- Todo List (Done)
+-  AI SQL Generator (Done)
+-  Role Premission  (Done)
+-  Activity Log  (Remove Bug) <-
+- Moduler Installer  (Done)
+- Document Upload  (Done)
+- Backup Manager, (still having bug) <-
 
 Sample Config
 - .env
@@ -26,10 +32,7 @@ Sample Config
 composer install
 php artisan key:generate
 php artisan migrate:fresh
-php artisan db:seed
-php artisan db:seed --verbose
-php artisan db:seed --class=UserRolePermissionSeeder
-php artisan db:seed --class=ActivityLogPermissionSeeder
+php artisan module:migrate --seed
 
 npm install
 npm run build
