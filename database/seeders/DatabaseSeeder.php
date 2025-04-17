@@ -19,7 +19,6 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        $this->call(ActivityLogPermissionSeeder::class);
         $this->call(\Modules\Role\Database\Seeders\RoleDatabaseSeeder::class);
     }
 }

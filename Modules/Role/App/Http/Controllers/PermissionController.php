@@ -37,12 +37,6 @@ class PermissionController extends \App\Http\Controllers\Controller // Correct b
     public function store(Request $request)
     {
         $permission = Permission::create(['name' => $request->name]);
-        
-        activity()
-            ->causedBy(auth()->user())
-            ->performedOn($permission)
-            ->withProperties(['name' => $permission->name])
-            ->log("Permission created: {$permission->name}");
 
         return redirect('admin/permissions')->with('status', 'Permission Created Successfully');
     }
@@ -72,12 +66,6 @@ class PermissionController extends \App\Http\Controllers\Controller // Correct b
     public function destroy($permissionId)
     {
         $permission = Permission::findOrFail($permissionId);
-        
-        activity()
-            ->causedBy(auth()->user())
-            ->performedOn($permission)
-            ->withProperties(['name' => $permission->name])
-            ->log("Permission deleted: {$permission->name}");
         
         $permission->delete();
         return redirect('admin/permissions')->with('status', 'Permission Deleted Successfully');

@@ -2,7 +2,7 @@
     "TestModule": true,
     "TodoList": true,
     "SqlGenerator": true,
-    "ActivityLog": true,
+    "ActivityLog": false,
     "Role": true,
     "ModuleManager": true,
     "Document": true,

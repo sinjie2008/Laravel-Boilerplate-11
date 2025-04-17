@@ -48,12 +48,6 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         $role = Role::create(['name' => $request->name]);
-        
-        activity()
-            ->causedBy(auth()->user())
-            ->performedOn($role)
-            ->withProperties(['name' => $role->name])
-            ->log("Role created: {$role->name}");
 
         // Updated redirect path (assuming '/admin/role' prefix later)
         return redirect('/admin/role')->with('status', 'Role Created Successfully'); 
@@ -90,12 +84,6 @@ class RoleController extends Controller
     {
         $role = Role::findOrFail($roleId);
         
-        activity()
-            ->causedBy(auth()->user())
-            ->performedOn($role)
-            ->withProperties(['name' => $role->name])
-            ->log("Role deleted: {$role->name}");
-        
         $role->delete();
         // Updated redirect path
         return redirect('/admin/role')->with('status', 'Role Deleted Successfully'); 
@@ -124,15 +112,6 @@ class RoleController extends Controller
         
         if($request->permission) {
             $role->syncPermissions($request->permission);
-            
-            activity()
-                ->causedBy(auth()->user())
-                ->performedOn($role)
-                ->withProperties([
-                    'permissions' => $request->permission,
-                    'role' => $role->name
-                ])
-                ->log("Permissions updated for role {$role->name}");
         }
 
         // Updated redirect path

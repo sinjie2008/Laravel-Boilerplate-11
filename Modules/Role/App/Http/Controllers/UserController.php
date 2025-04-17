@@ -54,15 +54,6 @@ class UserController extends \App\Http\Controllers\Controller // Correct base co
                     ]);
 
         $user->assignRole($request->roles);
-        
-        activity()
-            ->causedBy(auth()->user())
-            ->performedOn($user)
-            ->withProperties([
-                'roles' => $request->roles,
-                'name' => $user->name
-            ])
-            ->log("User created and assigned roles: {$user->name}");
 
         return redirect('admin/users')->with('status', 'User Created Successfully');
     }
@@ -89,15 +80,6 @@ class UserController extends \App\Http\Controllers\Controller // Correct base co
         if($request->roles) {
             $user->syncRoles($request->roles);
         }
-        
-        activity()
-            ->causedBy(auth()->user())
-            ->performedOn($user)
-            ->withProperties([
-                'roles' => $request->roles,
-                'name' => $user->name
-            ])
-            ->log("User updated: {$user->name}");
 
         return redirect('admin/users')->with('status', 'User Updated Successfully');
     }

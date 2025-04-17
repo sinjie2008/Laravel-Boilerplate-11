@@ -151,29 +151,6 @@ class ModuleManagerController extends Controller
 
             // --- Debug: Log module name before check ---
             Log::debug("Checking module name for specific migration run. Module Name: [{$moduleName}]");
-            // Specific migration run for ActivityLog core migrations
-            if (strtolower($moduleName) === 'activitylog') {
-                Log::info("Performing specific migration run for ActivityLog core migrations.");
-                $coreMigrations = [
-                        'database/migrations/2024_11_06_054301_create_activity_log_table.php',
-                        'database/migrations/2024_11_06_054302_add_event_column_to_activity_log_table.php',
-                        'database/migrations/2024_11_06_054303_add_batch_uuid_column_to_activity_log_table.php',
-                    ];
-                    foreach ($coreMigrations as $migrationPath) {
-                        if (File::exists(base_path($migrationPath))) {
-                            try {
-                                Log::info("Running core migration: {$migrationPath}");
-                                Artisan::call('migrate', ['--path' => $migrationPath, '--force' => true]);
-                                Log::info("Migration output for {$migrationPath}: " . Artisan::output());
-                            } catch (\Exception $migrationEx) {
-                                Log::error("Error running core migration {$migrationPath}: " . $migrationEx->getMessage());
-                                // Decide if you want to stop the process or just log the error
-                            }
-                        } else {
-                            Log::warning("Core migration path not found, skipping migration: {$migrationPath}");
-                        }
-                    }
-                }
 
                 // --- Enable Module ---
                  // Run composer dump-autoload first to ensure the new module is recognized
@@ -321,57 +298,19 @@ class ModuleManagerController extends Controller
             Log::info("Attempting to rollback migrations for module: {$module}");
             // Standard module rollback (for migrations *inside* the module, if any)
             Artisan::call('module:migrate-rollback', ['module' => $module, '--force' => true]);
-            Log::info("Standard migration rollback output for {$module}: " . Artisan::output());
-
-            // --- Debug: Log module name before check ---
-            Log::debug("Checking module name for specific rollback. Module Name: [{$module}]");
-            // Specific rollback for ActivityLog core migrations
-            if (strtolower($module) === 'activitylog') {
-                Log::info("Performing specific rollback for ActivityLog core migrations.");
-                $coreMigrations = [
-                    'database/migrations/2024_11_06_054303_add_batch_uuid_column_to_activity_log_table.php',
-                    'database/migrations/2024_11_06_054302_add_event_column_to_activity_log_table.php',
-                    'database/migrations/2024_11_06_054301_create_activity_log_table.php',
-                ];
-                foreach ($coreMigrations as $migrationPath) {
-                    if (File::exists(base_path($migrationPath))) {
-                        try {
-                            Log::info("Rolling back core migration: {$migrationPath}");
-                            Artisan::call('migrate:rollback', ['--path' => $migrationPath, '--force' => true]);
-                            Log::info("Rollback output for {$migrationPath}: " . Artisan::output());
-                        } catch (\Exception $migrationEx) {
-                            Log::error("Error rolling back core migration {$migrationPath}: " . $migrationEx->getMessage());
-                            // Decide if you want to stop the process or just log the error
-                        }
-                    } else {
-                        Log::warning("Core migration path not found, skipping rollback: {$migrationPath}");
-                    }
-                }
-            }
+            Log::info("Module rollback output for {$module}: " . Artisan::output());
 
             // 3. Delete the module files
             $modulePath = $moduleInstance->getPath();
             Log::info("Attempting to delete module directory: {$modulePath}");
-            if (File::isDirectory($modulePath)) {
-                if (File::deleteDirectory($modulePath)) {
-                     Log::info("Successfully deleted module directory: {$modulePath}");
-                } else {
-                    Log::error("File::deleteDirectory failed for: {$modulePath}");
-                    throw new \Exception("Failed to delete module directory automatically.");
-                }
-            } else {
-                 Log::warning("Module directory not found at expected path: {$modulePath}. Skipping deletion.");
-                 // Attempt module:delete command as a fallback if path wasn't found
-                 // Check if module:delete command exists before calling
-                 if (class_exists(\Nwidart\Modules\Commands\DeleteCommand::class)) {
-                     Log::info("Attempting fallback: php artisan module:delete {$module}");
-                     Artisan::call('module:delete', ['module' => $module, '--force' => true]);
-                     Log::info("Fallback module:delete output: " . Artisan::output());
-                 } else {
-                     Log::warning("module:delete command not available.");
-                 }
-            }
 
+            if (File::isDirectory($modulePath)) {
+                File::deleteDirectory($modulePath);
+                Log::info("Module directory deleted: {$modulePath}");
+            } else {
+                Log::warning("Module directory not found, cannot delete: {$modulePath}");
+                // Not necessarily an error, might have been manually deleted
+            }
 
             // 4. Clear cache
             Artisan::call('optimize:clear');

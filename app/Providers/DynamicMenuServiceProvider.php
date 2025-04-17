@@ -33,15 +33,7 @@ class DynamicMenuServiceProvider extends ServiceProvider
                     'icon' => 'fas fa-fw fa-list-alt',
                     'order' => 15 // Place after 'Users' (assuming Users is ~10)
                 ],
-                'ActivityLog' => [
-                    // 'header' => 'User Management',
-                    'text' => 'Activity Logs',
-                    'route'  => 'activitylog.index', // Use the named route from the module
-                    'icon' => 'fas fa-history',
-                    'can'  => 'view activity logs', // Keep permission check
-                    'order' => 45 // Place after 'Permissions' (assuming Permissions is ~40)
-                ],
-                 'SqlGenerator' => [
+                'SqlGenerator' => [
                     // 'header' => 'User Management',
                     'text' => 'SQL Generator',
                     'url'  => 'admin/sql-generator', // Confirm this URL/route is correct
