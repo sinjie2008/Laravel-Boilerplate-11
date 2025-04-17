@@ -2,7 +2,7 @@
 
 namespace Modules\Role\Database\Seeders;
 
-use App\Models\User; // Keep this as User model is in core app
+use Modules\Role\App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;

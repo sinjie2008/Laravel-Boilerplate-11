@@ -20,6 +20,6 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call(ActivityLogPermissionSeeder::class);
-        $this->call(UserRolePermissionSeeder::class);
+        $this->call(\Modules\Role\Database\Seeders\RoleDatabaseSeeder::class);
     }
 }
