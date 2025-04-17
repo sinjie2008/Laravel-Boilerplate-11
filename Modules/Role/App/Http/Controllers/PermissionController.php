@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Modules\Role\App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\DB;
 
-class PermissionController extends Controller
+class PermissionController extends \App\Http\Controllers\Controller // Correct base controller
 {
     public function __construct()
     {
@@ -26,12 +26,12 @@ class PermissionController extends Controller
             ->orderBy('id', 'DESC')
             ->paginate(10);
         
-        return view('role-permission.permission.index', compact('permissions', 'search'));
+        return view('role::permissions.index', compact('permissions', 'search'));
     }
 
     public function create()
     {
-        return view('role-permission.permission.create');
+        return view('role::permissions.create');
     }
 
     public function store(Request $request)
@@ -49,7 +49,7 @@ class PermissionController extends Controller
 
     public function edit(Permission $permission)
     {
-        return view('role-permission.permission.edit', ['permission' => $permission]);
+        return view('role::permissions.edit', ['permission' => $permission]);
     }
 
     public function update(Request $request, Permission $permission)

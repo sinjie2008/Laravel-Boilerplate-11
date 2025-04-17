@@ -27,6 +27,17 @@ return [
         // Point to the Role model within the module
         'role' => Modules\Role\App\Models\Role::class, 
 
+        /*
+         * When using the "HasRoles" or "HasPermissions" traits, we need to know which
+         * Eloquent model should be used to retrieve your users. Of course, it
+         * is often just the "User" model but you may use whatever you like.
+         *
+         * The model you want to use as a User model needs to extend the
+         * `Illuminate\Foundation\Auth\User` model.
+         */
+        // Point to the User model within the module
+        'user' => Modules\Role\App\Models\User::class,
+
     ],
 
     'table_names' => [

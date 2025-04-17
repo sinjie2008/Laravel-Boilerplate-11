@@ -17,7 +17,6 @@
     },
     "autoload": {
         "psr-4": {
-            "Modules\\ActivityLog\\": "",
             "Modules\\ActivityLog\\App\\": "app/",
             "Modules\\ActivityLog\\Database\\Factories\\": "database/factories/",
             "Modules\\ActivityLog\\Database\\Seeders\\": "database/seeders/"

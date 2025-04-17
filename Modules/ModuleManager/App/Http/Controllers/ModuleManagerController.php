@@ -145,8 +145,35 @@ class ModuleManagerController extends Controller
 
                 // --- Run Migrations ---
                 Log::info("Attempting to run migrations for module: {$moduleName}");
+                // Standard module migration (for migrations *inside* the module, if any)
                 Artisan::call('module:migrate', ['module' => $moduleName, '--force' => true]);
-                Log::info("Migration output for {$moduleName}: " . Artisan::output()); // Log output
+            Log::info("Standard migration output for {$moduleName}: " . Artisan::output());
+
+            // --- Debug: Log module name before check ---
+            Log::debug("Checking module name for specific migration run. Module Name: [{$moduleName}]");
+            // Specific migration run for ActivityLog core migrations
+            if (strtolower($moduleName) === 'activitylog') {
+                Log::info("Performing specific migration run for ActivityLog core migrations.");
+                $coreMigrations = [
+                        'database/migrations/2024_11_06_054301_create_activity_log_table.php',
+                        'database/migrations/2024_11_06_054302_add_event_column_to_activity_log_table.php',
+                        'database/migrations/2024_11_06_054303_add_batch_uuid_column_to_activity_log_table.php',
+                    ];
+                    foreach ($coreMigrations as $migrationPath) {
+                        if (File::exists(base_path($migrationPath))) {
+                            try {
+                                Log::info("Running core migration: {$migrationPath}");
+                                Artisan::call('migrate', ['--path' => $migrationPath, '--force' => true]);
+                                Log::info("Migration output for {$migrationPath}: " . Artisan::output());
+                            } catch (\Exception $migrationEx) {
+                                Log::error("Error running core migration {$migrationPath}: " . $migrationEx->getMessage());
+                                // Decide if you want to stop the process or just log the error
+                            }
+                        } else {
+                            Log::warning("Core migration path not found, skipping migration: {$migrationPath}");
+                        }
+                    }
+                }
 
                 // --- Enable Module ---
                  // Run composer dump-autoload first to ensure the new module is recognized
@@ -290,10 +317,37 @@ class ModuleManagerController extends Controller
                 Log::info("Module [{$module}] disabled before uninstall.");
             }
 
-            // 2. Rollback Migrations (Drop Tables)
+            // 2. Rollback Migrations
             Log::info("Attempting to rollback migrations for module: {$module}");
+            // Standard module rollback (for migrations *inside* the module, if any)
             Artisan::call('module:migrate-rollback', ['module' => $module, '--force' => true]);
-            Log::info("Migration rollback output for {$module}: " . Artisan::output()); // Log output
+            Log::info("Standard migration rollback output for {$module}: " . Artisan::output());
+
+            // --- Debug: Log module name before check ---
+            Log::debug("Checking module name for specific rollback. Module Name: [{$module}]");
+            // Specific rollback for ActivityLog core migrations
+            if (strtolower($module) === 'activitylog') {
+                Log::info("Performing specific rollback for ActivityLog core migrations.");
+                $coreMigrations = [
+                    'database/migrations/2024_11_06_054303_add_batch_uuid_column_to_activity_log_table.php',
+                    'database/migrations/2024_11_06_054302_add_event_column_to_activity_log_table.php',
+                    'database/migrations/2024_11_06_054301_create_activity_log_table.php',
+                ];
+                foreach ($coreMigrations as $migrationPath) {
+                    if (File::exists(base_path($migrationPath))) {
+                        try {
+                            Log::info("Rolling back core migration: {$migrationPath}");
+                            Artisan::call('migrate:rollback', ['--path' => $migrationPath, '--force' => true]);
+                            Log::info("Rollback output for {$migrationPath}: " . Artisan::output());
+                        } catch (\Exception $migrationEx) {
+                            Log::error("Error rolling back core migration {$migrationPath}: " . $migrationEx->getMessage());
+                            // Decide if you want to stop the process or just log the error
+                        }
+                    } else {
+                        Log::warning("Core migration path not found, skipping rollback: {$migrationPath}");
+                    }
+                }
+            }
 
             // 3. Delete the module files
             $modulePath = $moduleInstance->getPath();

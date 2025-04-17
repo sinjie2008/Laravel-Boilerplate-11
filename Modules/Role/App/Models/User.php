@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace Modules\Role\App\Models; // Updated namespace
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Laravel\Sanctum\HasApiTokens;

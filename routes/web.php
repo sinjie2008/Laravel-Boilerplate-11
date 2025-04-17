@@ -3,13 +3,15 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\PermissionController;
+// use App\Http\Controllers\UserController; // Moved to Role Module
+// use App\Http\Controllers\PermissionController; // Moved to Role Module
 // use App\Http\Controllers\ActivityLogController; // Removed as it's now in the module
 // use App\Http\Controllers\DocumentController; // Removed as it's now in the module
 use Spatie\Activitylog\Models\Activity;
 // Remove SqlGeneratorController import as it's now in the module
 // use App\Http\Controllers\SqlGeneratorController;
+// use App\Http\Controllers\DebugController; // Removed debug controller
+// use Illuminate\Support\Facades\DB; // Removed as no longer needed
 
 /*
 |--------------------------------------------------------------------------
@@ -23,13 +25,15 @@ use Spatie\Activitylog\Models\Activity;
 */
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function() {
-    Route::resource('permissions', App\Http\Controllers\PermissionController::class)->middleware('permission:view permission|create permission|update permission|delete permission');
-    Route::get('permissions/{permissionId}/delete', [App\Http\Controllers\PermissionController::class, 'destroy'])->middleware('permission:delete permission');
+    // Permission routes now handled by Role Module Controller
+    Route::resource('permissions', Modules\Role\App\Http\Controllers\PermissionController::class)->middleware('permission:view permission|create permission|update permission|delete permission');
+    Route::get('permissions/{permissionId}/delete', [Modules\Role\App\Http\Controllers\PermissionController::class, 'destroy'])->middleware('permission:delete permission');
 
     // Role routes moved to Modules/Role/routes/web.php
 
-    Route::resource('users', App\Http\Controllers\UserController::class)->middleware('permission:view user|create user|update user|delete user');
-    Route::get('users/{userId}/delete', [App\Http\Controllers\UserController::class, 'destroy'])->middleware('permission:delete user');
+    // User routes (related to roles/permissions) now handled by Role Module Controller
+    Route::resource('users', Modules\Role\App\Http\Controllers\UserController::class)->middleware('permission:view user|create user|update user|delete user');
+    Route::get('users/{userId}/delete', [Modules\Role\App\Http\Controllers\UserController::class, 'destroy'])->middleware('permission:delete user');
     
     Route::middleware(['auth'])->group(function () {
         Route::get('storage/{id}/{filename}', function ($id, $filename) {
@@ -54,7 +58,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+// Auth::routes(); // Moved to Role module
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace Modules\Role\App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Http\Controllers\Controller; // Correct base controller
+use Modules\Role\App\Models\User; // Keep module User model reference
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-class RegisterController extends Controller
+class RegisterController extends Controller // Correct base controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -24,11 +24,21 @@ class RegisterController extends Controller
     use RegistersUsers;
 
     /**
+     * Show the application registration form.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showRegistrationForm()
+    {
+        return view('role::auth.register'); // Use module view syntax
+    }
+
+    /**
      * Where to redirect users after registration.
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/home'; // This might need adjustment later
 
     /**
      * Create a new controller instance.
@@ -59,7 +69,7 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\Models\User
+     * @return \Modules\Role\App\Models\User // Updated User model reference
      */
     protected function create(array $data)
     {

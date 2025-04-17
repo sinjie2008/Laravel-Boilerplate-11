@@ -1,13 +1,13 @@
 <?php
 
-namespace Database\Factories;
+namespace Modules\Role\Database\Factories; // Updated namespace
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Role\App\Models\User> // Updated model reference
  */
 class UserFactory extends Factory
 {

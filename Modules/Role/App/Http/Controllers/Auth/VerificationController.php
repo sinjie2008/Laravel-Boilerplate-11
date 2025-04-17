@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace Modules\Role\App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Controller; // Correct base controller
 use Illuminate\Foundation\Auth\VerifiesEmails;
+use Illuminate\Http\Request; // Add missing Request import
 
-class VerificationController extends Controller
+class VerificationController extends Controller // Correct base controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -21,11 +22,24 @@ class VerificationController extends Controller
     use VerifiesEmails;
 
     /**
+     * Show the email verification notice.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    public function show(Request $request)
+    {
+        return $request->user()->hasVerifiedEmail()
+                        ? redirect($this->redirectPath())
+                        : view('role::auth.verify'); // Use module view syntax
+    }
+
+    /**
      * Where to redirect users after verification.
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/home'; // This might need adjustment later
 
     /**
      * Create a new controller instance.

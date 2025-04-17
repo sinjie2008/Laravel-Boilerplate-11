@@ -1,14 +1,14 @@
 <?php
 
-namespace  App\Http\Controllers;
+namespace Modules\Role\App\Http\Controllers;
 
-use App\Models\User;
+use Modules\Role\App\Models\User;
 
 use Illuminate\Http\Request;
 use  Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 
-class UserController extends Controller
+class UserController extends \App\Http\Controllers\Controller // Correct base controller
 {
     public function __construct()
     {
@@ -29,13 +29,13 @@ class UserController extends Controller
             ->orderBy('id', 'DESC')
             ->paginate(10);
         
-        return view('role-permission.user.index', compact('users', 'search'));
+        return view('role::users.index', compact('users', 'search'));
     }
 
     public function create()
     {
         $roles = Role::pluck('name','name')->all();
-        return view('role-permission.user.create', ['roles' => $roles]);
+        return view('role::users.create', ['roles' => $roles]);
     }
 
     public function store(Request $request)
@@ -71,7 +71,7 @@ class UserController extends Controller
     {
         $roles = Role::pluck('name','name')->all();
         $userRoles = $user->roles->pluck('name','name')->all();
-        return view('role-permission.user.edit', [
+        return view('role::users.edit', [
             'user' => $user,
             'roles' => $roles,
             'userRoles' => $userRoles
