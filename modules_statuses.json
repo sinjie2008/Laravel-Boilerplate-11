@@ -6,5 +6,6 @@
     "Role": true,
     "ModuleManager": true,
     "Document": true,
-    "BackupManager": true
+    "BackupManager": true,
+    "MediaManager": true
 }

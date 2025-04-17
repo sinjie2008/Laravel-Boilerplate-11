@@ -54,6 +54,14 @@ class DynamicMenuServiceProvider extends ServiceProvider
                     // 'can'  => 'manage backups', // Optional permission check
                     'order' => 60 // Place it after SQL Generator
                 ],
+                // Add entry for Media Manager
+                'MediaManager' => [
+                    'text' => 'Media Manager',
+                    'route' => 'mediamanager.index', // Make sure this route name is correct
+                    'icon' => 'fas fa-fw fa-photo-video',
+                    // 'can'  => 'access media manager', // Optional permission check
+                    'order' => 58 // Adjust order as needed (e.g., before Backup Manager)
+                ],
                 // Note: 'Role' seems to be core or handled differently, not included here.
                 // 'ModuleManager' is handled statically in config/adminlte.php
             ];

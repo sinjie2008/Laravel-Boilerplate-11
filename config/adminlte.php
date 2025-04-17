@@ -315,7 +315,19 @@ return [
             'type' => 'sidebar-menu-search',
             'text' => 'search',
         ],
-
+        [
+            'text' => 'blog',
+            'url' => 'admin/blog',
+            'can' => 'manage-blog',
+        ],
+        // [
+        //     'text' => 'pages',
+        //     'url' => 'admin/pages',
+        //     'icon' => 'far fa-fw fa-file',
+        //     'label' => 4,
+        //     'label_color' => 'success',
+        // ],
+        // Media Manager item moved below
         ['header' => 'User Management'],
         // TodoList will be added dynamically if active
         [
@@ -323,6 +335,7 @@ return [
             'url'  => 'admin/users',
             'icon' => 'fas fa-fw fa-users',
         ],
+        // Document Management will be added dynamically if active (Moved here)
         [
             'text' => 'Roles',
             'route'  => 'admin.role.index', // Use named route from module
@@ -335,7 +348,6 @@ return [
             'icon' => 'fas fa-fw fa-key',
         ],
         // Activity Logs will be added dynamically if active
-        // Document Management will be added dynamically if active
         // SQL Generator will be added dynamically if active
         ['header' => 'System'], // Add a header for system modules
         [
