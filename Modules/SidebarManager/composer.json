@@ -1,0 +1,31 @@
+{
+    "name": "nwidart/sidebarmanager",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\SidebarManager\\": "",
+            "Modules\\SidebarManager\\App\\": "app/",
+            "Modules\\SidebarManager\\Database\\Factories\\": "database/factories/",
+            "Modules\\SidebarManager\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\SidebarManager\\Tests\\": "tests/"
+        }
+    }
+}

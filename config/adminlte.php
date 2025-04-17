@@ -315,47 +315,11 @@ return [
             'type' => 'sidebar-menu-search',
             'text' => 'search',
         ],
-        [
-            'text' => 'blog',
-            'url' => 'admin/blog',
-            'can' => 'manage-blog',
-        ],
-        // [
-        //     'text' => 'pages',
-        //     'url' => 'admin/pages',
-        //     'icon' => 'far fa-fw fa-file',
-        //     'label' => 4,
-        //     'label_color' => 'success',
-        // ],
-        // Media Manager item moved below
-        ['header' => 'User Management'],
-        // TodoList will be added dynamically if active
-        [
-            'text' => 'Users',
-            'url'  => 'admin/users',
-            'icon' => 'fas fa-fw fa-users',
-        ],
-        // Document Management will be added dynamically if active (Moved here)
-        [
-            'text' => 'Roles',
-            'route'  => 'admin.role.index', // Use named route from module
-            'icon' => 'fas fa-fw fa-user-shield',
-            'can'  => 'view role', // Add permission check for menu visibility
-        ],
-        [
-            'text' => 'Permissions',
-            'url'  => 'admin/permissions',
-            'icon' => 'fas fa-fw fa-key',
-        ],
-        // Activity Logs will be added dynamically if active
-        // SQL Generator will be added dynamically if active
-        ['header' => 'System'], // Add a header for system modules
-        [
-            'text' => 'Module Manager',
-            'route'  => 'module-manager.index', // Use the named route from the module
-            'icon' => 'fas fa-puzzle-piece', // Or 'fas fa-cogs'
-            // 'can'  => 'manage modules', // Optional: Add permission check if needed
-        ],
+        // Removed static items: blog, User Management header, Users, Roles, Permissions, System header, Module Manager
+        // These will now be loaded dynamically by SidebarMenuServiceProvider
+
+        // Dynamic items will be added here by event listeners
+
     ],
 
     /*

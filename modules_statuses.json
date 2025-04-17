@@ -7,5 +7,6 @@
     "ModuleManager": true,
     "Document": true,
     "BackupManager": true,
-    "MediaManager": true
+    "MediaManager": true,
+    "SidebarManager": true
 }
