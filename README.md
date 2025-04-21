@@ -44,6 +44,6 @@ php artisan view:clear
 php artisan storage:link
 php artisan tinker
 chmod -R 777 storage bootstrap/cache
-
+php artisan queue:work
 
 php artisan serve
