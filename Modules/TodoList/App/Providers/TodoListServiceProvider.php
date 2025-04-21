@@ -2,7 +2,7 @@
 
 namespace Modules\TodoList\App\Providers;
 
-use App\Observers\TodoObserver;
+use Modules\TodoList\App\Observers\TodoObserver;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Modules\TodoList\App\Models\Todo;

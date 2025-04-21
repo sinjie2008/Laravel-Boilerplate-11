@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Observers;
+namespace Modules\TodoList\App\Observers;
 
 use Illuminate\Support\Facades\Log;
 use Modules\TodoList\App\Models\Todo;
-// Removed unused Spatie\Activitylog\Facades\Activity if helper is used
 
 class TodoObserver
 {
@@ -16,8 +15,8 @@ class TodoObserver
         Log::info("Todo created: ID {$todo->id}, Title: {$todo->title}");
         activity()
            ->performedOn($todo)
-           ->causedBy(auth()->user()) // Assumes the action is performed by the logged-in user
-           ->withProperties(['attributes' => $todo->getAttributes()]) // Log the model attributes
+           ->causedBy(auth()->user())
+           ->withProperties(['attributes' => $todo->getAttributes()])
            ->log('Created todo item');
     }
 
@@ -31,8 +30,8 @@ class TodoObserver
            ->performedOn($todo)
            ->causedBy(auth()->user())
            ->withProperties([
-                'old' => $todo->getOriginal(), // Log original attributes
-                'new' => $todo->getAttributes() // Log new attributes
+                'old' => $todo->getOriginal(),
+                'new' => $todo->getAttributes()
             ])
            ->log('Updated todo item');
     }
@@ -46,7 +45,7 @@ class TodoObserver
         activity()
            ->performedOn($todo)
            ->causedBy(auth()->user())
-           ->withProperties(['attributes' => $todo->getOriginal()]) // Log attributes before deletion
+           ->withProperties(['attributes' => $todo->getOriginal()])
            ->log('Deleted todo item');
     }
 
@@ -74,4 +73,4 @@ class TodoObserver
         //    ->withProperties(['attributes' => $todo->getOriginal()])
         //    ->log('Force deleted todo item');
     }
-}
+} 
