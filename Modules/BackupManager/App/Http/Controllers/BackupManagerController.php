@@ -7,11 +7,13 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB; // Added for database operations
 use Illuminate\Support\Facades\File; // Added for file operations
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Symfony\Component\Process\Process; // Added for running commands
-use Symfony\Component\Process\Exception\ProcessFailedException; // Added for error handling
+// Removed Symfony Process as we'll use DB::unprepared
+// use Symfony\Component\Process\Process;
+// use Symfony\Component\Process\Exception\ProcessFailedException;
 use Exception;
 use ZipArchive; // Added for zip extraction
 
@@ -72,6 +74,42 @@ class BackupManagerController extends Controller
         } catch (Exception $e) {
             Log::error("Error starting backup creation: " . $e->getMessage());
             session()->flash('error', 'Could not start backup creation: ' . $e->getMessage());
+        }
+
+        return redirect()->route('backup-manager.index');
+    }
+
+    /**
+     * Trigger the file-only backup creation process.
+     */
+    public function createFilesBackup(): RedirectResponse
+    {
+        try {
+            // Queue the backup job for files only
+            Artisan::queue('backup:run', ['--only-files' => true, '--only-db' => false]);
+            session()->flash('success', 'File backup creation process started. It may take a few minutes to complete.');
+        } catch (Exception $e) {
+            Log::error("Error starting file backup creation: " . $e->getMessage());
+            session()->flash('error', 'Could not start file backup creation: ' . $e->getMessage());
+        }
+
+        return redirect()->route('backup-manager.index');
+    }
+
+    /**
+     * Trigger the all-in-one (files + database) backup creation process.
+     */
+    public function createAllInOneBackup(): RedirectResponse
+    {
+        try {
+            // Queue the backup job for both files and database
+            // The default behavior of backup:run is to back up everything specified
+            // in the config, so explicitly setting both to false is equivalent to no flags.
+            Artisan::queue('backup:run', ['--only-files' => false, '--only-db' => false]);
+            session()->flash('success', 'All-In-One backup creation process started. It may take a few minutes to complete.');
+        } catch (Exception $e) {
+            Log::error("Error starting All-In-One backup creation: " . $e->getMessage());
+            session()->flash('error', 'Could not start All-In-One backup creation: ' . $e->getMessage());
         }
 
         return redirect()->route('backup-manager.index');
@@ -202,43 +240,20 @@ class BackupManagerController extends Controller
             $sqlDumpPath = $sqlFiles[0]; // Use the first SQL file found
             Log::info("Found SQL dump file: {$sqlDumpPath}");
 
-
-            // 5. Get database credentials
-            $dbConfig = config('database.connections.' . config('database.default'));
-            $dbName = $dbConfig['database'];
-            $dbUser = $dbConfig['username'];
-            $dbPass = $dbConfig['password'] ? escapeshellarg($dbConfig['password']) : ''; // Handle empty password
-            $dbHost = $dbConfig['host'];
-            $dbPort = $dbConfig['port'];
-
-            // 6. Construct and execute the mysql import command
-            $mysqlPath = 'C:\laragon\bin\mysql\mysql-8.0.30-winx64\bin\mysql.exe'; // Use absolute path
-            if (!File::exists($mysqlPath)) {
-                 throw new Exception("MySQL executable not found at: {$mysqlPath}. Please verify the path.");
+            // 5. Read SQL content
+            $sqlContent = File::get($sqlDumpPath);
+            if ($sqlContent === false) {
+                throw new Exception("Failed to read SQL dump file content from: {$sqlDumpPath}");
             }
-            $command = sprintf(
-                '%s --host=%s --port=%s --user=%s %s %s < %s',
-                escapeshellarg($mysqlPath), // Use escaped absolute path
-                escapeshellarg($dbHost),
-                escapeshellarg($dbPort),
-                escapeshellarg($dbUser),
-                $dbPass ? "--password={$dbPass}" : '', // Add password only if it exists
-                escapeshellarg($dbName),
-                escapeshellarg($sqlDumpPath)
-            );
 
-            Log::info("Executing database restore command..."); // Don't log the full command with password
-            $process = Process::fromShellCommandline($command);
-            $process->setTimeout(3600); // Increase timeout for potentially long restores
-            $process->mustRun(); // Throws ProcessFailedException on error
+            // 6. Execute SQL using DB::unprepared
+            Log::info("Executing SQL dump using DB::unprepared...");
+            DB::connection()->unprepared($sqlContent); // Use the default connection
 
-            Log::info("Database restore command executed successfully for {$fileName}.");
+            Log::info("Database restore via DB::unprepared completed successfully for {$fileName}.");
             session()->flash('success', 'Database restored successfully from ' . $fileName);
 
-        } catch (ProcessFailedException $e) {
-            Log::error("Database restore failed for {$fileName}. Error: " . $e->getMessage());
-            session()->flash('error', 'Database restore failed. Check logs for details. Error: ' . $e->getMessage());
-        } catch (Exception $e) {
+        } catch (Exception $e) { // Catch general exceptions, including DB errors
             Log::error("An error occurred during database restore for {$fileName}: " . $e->getMessage());
             session()->flash('error', 'An error occurred during restore: ' . $e->getMessage());
         } finally {

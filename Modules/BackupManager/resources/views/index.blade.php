@@ -49,6 +49,22 @@
                                     <i class="fas fa-spinner fa-spin"></i> Processing...
                                 </span>
                             </form>
+                            {{-- Button for Files Only Backup --}}
+                            <form id="createFilesBackupForm" action="{{ route('backup-manager.create-files-backup') }}" method="POST" style="display: inline; margin-left: 10px;">
+                                @csrf
+                                <button type="submit" id="createFilesBackupBtn" class="btn btn-info btn-sm">
+                                    <i class="fas fa-copy"></i> Create Files Backup
+                                </button>
+                                {{-- Optional: Add a separate spinner for this button if needed --}}
+                            </form>
+                            {{-- Button for All-In-One Backup --}}
+                            <form id="createAllInOneBackupForm" action="{{ route('backup-manager.create-all-in-one-backup') }}" method="POST" style="display: inline; margin-left: 10px;">
+                                @csrf
+                                <button type="submit" id="createAllInOneBackupBtn" class="btn btn-success btn-sm">
+                                    <i class="fas fa-archive"></i> Create All-In-One Backup
+                                </button>
+                                {{-- Optional: Add a separate spinner for this button if needed --}}
+                            </form>
                         </div>
                     </div>
                     <!-- /.card-header -->
