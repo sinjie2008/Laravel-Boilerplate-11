@@ -315,6 +315,29 @@ return [
             'type' => 'sidebar-menu-search',
             'text' => 'search',
         ],
+        [
+            'header' => 'SYSTEM',
+            'can'    => ['users_access'], // Assuming only users who can access user management can see this section
+        ],
+        [
+            'text' => 'Users',
+            'url'  => 'admin/users',
+            'icon' => 'fas fa-fw fa-users',
+            'can'  => 'users_access',
+        ],
+        [
+            'text' => 'Roles',
+            'url'  => 'admin/roles',
+            'icon' => 'fas fa-fw fa-briefcase',
+            'can'  => 'roles_access',
+        ],
+        [
+            'text' => 'Permissions',
+            'url'  => 'admin/permissions',
+            'icon' => 'fas fa-fw fa-key',
+            'can'  => 'permissions_access',
+        ],
+        // Removed Activity Log entry - will be added via Seeder
         // Removed static items: blog, User Management header, Users, Roles, Permissions, System header, Module Manager
         // These will now be loaded dynamically by SidebarMenuServiceProvider
 

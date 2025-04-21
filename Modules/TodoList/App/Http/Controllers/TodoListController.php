@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 // Remove Response import if not used elsewhere, keep for now
 use Modules\TodoList\App\Models\Todo;
 use Yajra\DataTables\Facades\DataTables; // Import DataTables facade
+use Illuminate\Support\Facades\Log;
 
 class TodoListController extends Controller
 {
@@ -74,7 +75,7 @@ class TodoListController extends Controller
      */
     public function show($id)
     {
-        $todo = Todo::find($id);
+        $todo = Todo::findOrFail($id);
         return view('todolist::show', compact('todo'));
     }
 
@@ -83,7 +84,7 @@ class TodoListController extends Controller
      */
     public function edit($id)
     {
-        $todo = Todo::find($id);
+        $todo = Todo::findOrFail($id);
         return view('todolist::edit', compact('todo'));
     }
 
@@ -96,7 +97,7 @@ class TodoListController extends Controller
             'title' => 'required',
         ]);
 
-        $todo = Todo::find($id);
+        $todo = Todo::findOrFail($id);
          $data = $request->all();
         $data['completed'] = isset($data['completed']) ? true : false;
         $todo->update($data);
@@ -110,10 +111,11 @@ class TodoListController extends Controller
      */
     public function destroy($id)
     {
-        $todo = Todo::find($id);
+        $todo = Todo::findOrFail($id);
         $todo->delete();
 
         return redirect()->route('admin.todolist.index')
                          ->with('success','Todo deleted successfully');
     }
+
 }

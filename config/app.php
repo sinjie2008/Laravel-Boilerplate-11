@@ -171,7 +171,7 @@ return [
         // App\Providers\DynamicMenuServiceProvider::class, // Commented out - Handled by SidebarManager module
         Spatie\Permission\PermissionServiceProvider::class,
         // App\Providers\ActivityLogServiceProvider::class, // Removed - Handled by module
-        // Modules\TodoList\App\Providers\TodoListServiceProvider::class,
+        Modules\TodoList\App\Providers\TodoListServiceProvider::class,
     ])->toArray(),
 
     /*

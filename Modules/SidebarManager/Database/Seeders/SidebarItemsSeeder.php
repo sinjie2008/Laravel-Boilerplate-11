@@ -37,7 +37,7 @@ class SidebarItemsSeeder extends Seeder
             'parent_id' => $engineeringManagement->id,
             'name' => 'TodoList',
             'icon' => 'fas fa-fw fa-tasks', // Choose an appropriate icon
-            'route' => 'admin/todolist', // Adjust route name if needed
+            'route' => 'admin.todolist.index', // Adjust route name if needed
             'order' => 11, // << New item order
             // 'permission_required' => 'view todolist', // Example permission
             'enabled' => true,
@@ -47,7 +47,7 @@ class SidebarItemsSeeder extends Seeder
             'parent_id' => $engineeringManagement->id,
             'name' => 'Documents',
             'icon' => 'fas fa-fw fa-file-alt', // Choose an appropriate icon
-            'route' => 'admin/documents', // Adjust route name if needed
+            'route' => 'document.documents.index', // Adjust route name if needed
             'order' => 12, // << New item order
             // 'permission_required' => 'view documents', // Example permission
             'enabled' => true,
@@ -68,7 +68,7 @@ class SidebarItemsSeeder extends Seeder
             'parent_id' => $userManagement->id,
             'name' => 'Users',
             'icon' => 'fas fa-fw fa-users',
-            'route' => 'admin/users', // Adjust route name if needed
+            'route' => 'users.index', // Adjust route name if needed
             'order' => 21, // << Updated order
             // 'permission_required' => 'view users', // Example permission
             'enabled' => true,
@@ -78,7 +78,7 @@ class SidebarItemsSeeder extends Seeder
             'parent_id' => $userManagement->id,
             'name' => 'Role', // << Corrected name from Roles
             'icon' => 'fas fa-fw fa-user-shield',
-            'route' => 'admin/role', // Adjust route name if needed
+            'route' => 'admin.role.index', // Adjust route name if needed
             'order' => 22, // << Updated order
             // 'permission_required' => 'view role', // Example permission
             'enabled' => true,
@@ -88,7 +88,7 @@ class SidebarItemsSeeder extends Seeder
             'parent_id' => $userManagement->id,
             'name' => 'Permissions',
             'icon' => 'fas fa-fw fa-key',
-            'route' => 'admin/permissions', // Adjust route name if needed
+            'route' => 'permissions.index', // Adjust route name if needed
             'order' => 23, // << Updated order
             // 'permission_required' => 'view permissions', // Example permission
             'enabled' => true,
@@ -107,7 +107,7 @@ class SidebarItemsSeeder extends Seeder
             'parent_id' => $system->id,
             'name' => 'SidebarManager', // << Added item
             'icon' => 'fas fa-fw fa-list-alt', // Choose an appropriate icon
-            'route' => 'admin/sidebar/items', // Adjust route name if needed (based on routes/web.php)
+            'route' => 'admin.sidebar.items.index', // Adjust route name if needed (based on routes/web.php)
             'order' => 31, // << New item order
             // 'permission_required' => 'manage sidebar', // Example permission
             'enabled' => true,
@@ -117,7 +117,7 @@ class SidebarItemsSeeder extends Seeder
             'parent_id' => $system->id,
             'name' => 'MediaManager', // << Added item
             'icon' => 'fas fa-fw fa-photo-video', // Choose an appropriate icon
-            'route' => 'admin/media-manager', // Adjust route name if needed
+            'route' => 'mediamanager.index', // Adjust route name if needed
             'order' => 32, // << New item order
             // 'permission_required' => 'manage media', // Example permission
             'enabled' => true,
@@ -127,7 +127,7 @@ class SidebarItemsSeeder extends Seeder
             'parent_id' => $system->id,
             'name' => 'ModuleManager', // << Corrected Name
             'icon' => 'fas fa-puzzle-piece',
-            'route' => 'admin/module-manager', // Adjust route name if needed
+            'route' => 'module-manager.index', // Adjust route name if needed
             'order' => 33, // << Updated order
              // 'permission_required' => 'manage modules', // Example permission
             'enabled' => true,
@@ -137,7 +137,7 @@ class SidebarItemsSeeder extends Seeder
             'parent_id' => $system->id,
             'name' => 'BackupManager', // << Added item
             'icon' => 'fas fa-fw fa-hdd', // Choose an appropriate icon
-            'route' => 'admin/backup-manager', // Adjust route name if needed
+            'route' => 'backup-manager.index', // Adjust route name if needed
             'order' => 34, // << New item order
             // 'permission_required' => 'manage backups', // Example permission
             'enabled' => true,
@@ -147,9 +147,19 @@ class SidebarItemsSeeder extends Seeder
             'parent_id' => $system->id,
             'name' => 'SqlGenerator', // << Added item
             'icon' => 'fas fa-fw fa-database', // Choose an appropriate icon
-            'route' => 'admin/sql-generator', // Adjust route name if needed
+            'route' => 'admin.sql-generator.index', // Adjust route name if needed
             'order' => 35, // << New item order
             // 'permission_required' => 'use sqlgenerator', // Example permission
+            'enabled' => true,
+        ]);
+
+        SidebarItem::create([
+            'parent_id' => $system->id,
+            'name' => 'Activity Log', // << Added item
+            'icon' => 'fas fa-fw fa-history', // Icon for activity log
+            'route' => 'admin.activitylog.index', // Use the named route
+            'order' => 36, // << New item order
+            // 'permission_required' => 'view activity logs', // Example permission
             'enabled' => true,
         ]);
 

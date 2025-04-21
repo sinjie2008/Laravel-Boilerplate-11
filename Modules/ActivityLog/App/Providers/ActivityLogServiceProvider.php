@@ -1,35 +1,27 @@
 <?php
 
-namespace Modules\TodoList\App\Providers;
+namespace Modules\ActivityLog\App\Providers;
 
-use App\Observers\TodoObserver;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-use Modules\TodoList\App\Models\Todo;
-use Illuminate\Support\Facades\Log;
 
-class TodoListServiceProvider extends ServiceProvider
+class ActivityLogServiceProvider extends ServiceProvider
 {
-    protected string $moduleName = 'TodoList';
+    protected string $moduleName = 'ActivityLog';
 
-    protected string $moduleNameLower = 'todolist';
+    protected string $moduleNameLower = 'activitylog';
 
     /**
      * Boot the application events.
      */
     public function boot(): void
     {
-        Log::info('TodoListServiceProvider boot method executing.');
-
         $this->registerCommands();
         $this->registerCommandSchedules();
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/migrations'));
-
-        Todo::observe(TodoObserver::class);
-        Log::info('TodoObserver registered.');
     }
 
     /**
