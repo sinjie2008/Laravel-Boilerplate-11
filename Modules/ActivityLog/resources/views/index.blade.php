@@ -70,9 +70,6 @@
                         </table>
                     </div>
                     <!-- /.card-body -->
-                    <div class="card-footer clearfix">
-                        {{ $activities->links() }} {{-- Display pagination links --}}
-                    </div>
                 </div>
                 <!-- /.card -->
             </div>
@@ -84,12 +81,18 @@
     {{-- Add any specific styles for this page if needed --}}
 @endpush
 
-@push('scripts')
-    {{-- Add any specific scripts for this page if needed --}}
+@push('js')
+    {{-- Add DataTables JS and any other specific scripts --}}
+    {{-- Assuming AdminLTE includes DataTables JS --}}
     <script>
-        // You could add DataTables initialization here for sorting/filtering
-        // $(function () {
-        //     $("#activities-table").DataTable();
-        // });
+        $(function () {
+            $("#activities-table").DataTable({
+                "responsive": true, 
+                "lengthChange": false, 
+                "autoWidth": false,
+                // Add buttons if needed, requires Buttons extension
+                // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"] 
+            }); //.buttons().container().appendTo('#activities-table_wrapper .col-md-6:eq(0)');
+        });
     </script>
 @endpush

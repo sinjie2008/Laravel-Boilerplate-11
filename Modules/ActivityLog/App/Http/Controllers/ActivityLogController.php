@@ -15,7 +15,8 @@ class ActivityLogController extends Controller
      */
     public function index()
     {
-        $activities = Activity::latest()->paginate(20);
+        // Fetch all activities; DataTables will handle pagination/searching client-side
+        $activities = Activity::latest()->get();
 
         return view('activitylog::index', compact('activities'));
     }
