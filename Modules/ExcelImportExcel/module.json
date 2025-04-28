@@ -1,0 +1,11 @@
+{
+    "name": "ExcelImportExcel",
+    "alias": "excelimportexcel",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ExcelImportExcel\\App\\Providers\\ExcelImportExcelServiceProvider"
+    ],
+    "files": []
+}

@@ -8,5 +8,6 @@
     "Document": true,
     "BackupManager": true,
     "MediaManager": true,
-    "SidebarManager": true
+    "SidebarManager": true,
+    "ExcelImportExcel": true
 }
