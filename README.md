@@ -47,3 +47,7 @@ chmod -R 777 storage bootstrap/cache
 php artisan queue:work
 
 php artisan serve
+
+
+## Auto Setup
+./setup.sh
