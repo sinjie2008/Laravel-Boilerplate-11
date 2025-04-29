@@ -2,6 +2,8 @@
 
 @section('title', 'Latex Items')
 
+@section('plugins.Datatables', true)
+
 @section('content_header')
     <h1>Latex Items</h1>
 @stop
@@ -16,8 +18,8 @@
                 </a>
             </div>
         </div>
-        <div class="card-body p-0">
-            <table class="table table-striped">
+        <div class="card-body"> {{-- Removed p-0 for better DataTable spacing --}}
+            <table id="latexItemsTable" class="table table-bordered table-striped"> {{-- Added ID and bordered class --}}
                 <thead>
                     <tr>
                         <th style="width: 10px">#</th>
@@ -56,5 +58,12 @@
 @stop
 
 @section('js')
-    <script> console.log('Hi!'); </script>
+    <script>
+        $(document).ready(function() {
+            $('#latexItemsTable').DataTable({
+                "responsive": true, // Optional: Add responsiveness
+                "autoWidth": false, // Optional: Disable auto width calculation
+            });
+        });
+    </script>
 @stop
