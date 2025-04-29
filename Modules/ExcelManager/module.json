@@ -1,0 +1,11 @@
+{
+    "name": "ExcelManager",
+    "alias": "excelmanager",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ExcelManager\\App\\Providers\\ExcelManagerServiceProvider"
+    ],
+    "files": []
+}

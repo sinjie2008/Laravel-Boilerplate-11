@@ -1,0 +1,24 @@
+/* Excel Manager Custom Styles */
+
+.excel-manager-header {
+    margin-bottom: 1.5rem;
+}
+
+.excel-actions .btn {
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.excel-actions .btn:last-child {
+    margin-right: 0;
+}
+
+.excel-card {
+    box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
+    margin-bottom: 1.5rem;
+}
+
+.excel-icon {
+    font-size: 1.2em;
+    margin-right: 0.3rem;
+} 

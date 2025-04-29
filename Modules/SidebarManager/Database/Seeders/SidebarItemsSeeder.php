@@ -163,6 +163,15 @@ class SidebarItemsSeeder extends Seeder
             'enabled' => true,
         ]);
 
+        SidebarItem::create([
+            'parent_id' => $system->id,
+            'name' => 'Excel Manager',
+            'icon' => 'fas fa-fw fa-file-excel', // Excel icon
+            'route' => 'excelmanager.index', // Route to excel manager
+            'order' => 37, // Next order value
+            'enabled' => true,
+        ]);
+
         // Add more items as needed...
     }
 }

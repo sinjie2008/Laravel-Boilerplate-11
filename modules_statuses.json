@@ -9,5 +9,5 @@
     "BackupManager": true,
     "MediaManager": true,
     "SidebarManager": true,
-    "ExcelImportExcel": true
+    "ExcelManager": true
 }

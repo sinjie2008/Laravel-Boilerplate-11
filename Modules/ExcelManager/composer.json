@@ -1,0 +1,31 @@
+{
+    "name": "nwidart/excelmanager",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\ExcelManager\\": "",
+            "Modules\\ExcelManager\\App\\": "app/",
+            "Modules\\ExcelManager\\Database\\Factories\\": "database/factories/",
+            "Modules\\ExcelManager\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\ExcelImportExcel\\Tests\\": "tests/"
+        }
+    }
+}
