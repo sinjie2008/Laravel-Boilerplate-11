@@ -1,0 +1,31 @@
+{
+    "name": "nwidart/latexmanager",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\LatexManager\\": "",
+            "Modules\\LatexManager\\App\\": "app/",
+            "Modules\\LatexManager\\Database\\Factories\\": "database/factories/",
+            "Modules\\LatexManager\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\LatexManager\\Tests\\": "tests/"
+        }
+    }
+}

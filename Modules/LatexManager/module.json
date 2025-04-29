@@ -1,0 +1,11 @@
+{
+    "name": "LatexManager",
+    "alias": "latexmanager",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\LatexManager\\App\\Providers\\LatexManagerServiceProvider"
+    ],
+    "files": []
+}
