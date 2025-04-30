@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage; // Added for potential future use
+// Import the controller containing the helper method
+use Modules\LatexManager\App\Http\Controllers\LatexItemController;
 
 class LatexManagerController extends Controller
 {
@@ -39,10 +41,10 @@ class LatexManagerController extends Controller
         // Save the LaTeX content to the .tex file
         File::put($texFile, $latexContent);
 
-        // Define the path to pdflatex - Consider making this configurable
-        // IMPORTANT: Ensure this path is correct for the server environment
-        $pdflatexPath = '"C:\Users\sIn.jie\AppData\Local\Programs\MiKTeX\miktex\bin\x64\pdflatex"'; 
-        
+        // Get the path to pdflatex from the helper method
+        $latexItemController = new LatexItemController(); // Instantiate the controller
+        $pdflatexPath = $latexItemController->getPdfLatexPath(); // Call the public helper method
+
         // Escape arguments for security
         $escapedTempDir = escapeshellarg($tempDir);
         $escapedTexFile = escapeshellarg($texFile);

@@ -26,6 +26,10 @@ Route::group([], function () {
 
 // Group for Latex Item CRUD under admin prefix
 Route::middleware(['web', 'auth'])->prefix('admin/latex-manager')->name('admin.latex-manager.')->group(function () {
+    // Configuration Routes
+    Route::get('config', [LatexItemController::class, 'showConfigForm'])->name('config.show');
+    Route::post('config', [LatexItemController::class, 'storeConfig'])->name('config.store');
+
     // Route for compiling LaTeX preview within CRUD
     Route::post('compile', [LatexItemController::class, 'compilePreview'])->name('compile');
 

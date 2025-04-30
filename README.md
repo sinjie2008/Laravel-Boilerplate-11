@@ -7,8 +7,6 @@ Boiler Plate Default Function
 
 Admin Protal
 - Theme AdminLTE
--  Pagination
--  Search
 -  Query Builder
 -  Backup
 -  AI Chat to db
@@ -18,14 +16,27 @@ Modules Convert
 - Todo List (Done)
 -  AI SQL Generator (Done)
 -  Role Premission  (Done)
--  Activity Log  (Remove Bug) <-
 - Moduler Installer  (Done)
 - Document Upload  (Done)
-- Backup Manager, (still having bug) <-
+- Media Manager (Done)
+- Sidebar Manager (Done)
+- Activity Log  (Done)
+- Excel Manager (Done)
+- Latex Manager Module (Done)
+
+Backup Manager Module  (In Progress)
+-- Create DB Backup (Done)
+-- Create DB Restore (Done)
+-- Create Files Backup (Bug)
+-- Restore Files Backup (Not yet)
+-- All in one backup (Not yet)
+-- All in one restore (Not yet)
+
+Auto Setup (Done)
+- Setup.sh
 
 Sample Config
 - .env
-
 
 ## Installation Guide
 

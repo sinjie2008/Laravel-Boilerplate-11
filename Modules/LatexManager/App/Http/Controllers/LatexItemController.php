@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Process; // Add Process facade
 use Illuminate\Support\Facades\Storage; // Add Storage facade
 use Illuminate\Support\Str;             // Add Str facade
 use Modules\LatexManager\App\Models\LatexItem; // Import the model
+use Modules\LatexManager\App\Models\LatexManagerSetting; // Import the settings model
 
 class LatexItemController extends Controller
 {
@@ -109,6 +110,53 @@ class LatexItemController extends Controller
     }
 
     /**
+     * Show the form for configuring LatexManager settings.
+     */
+    public function showConfigForm()
+    {
+        // Fetch the first settings record (assuming only one)
+        $settings = LatexManagerSetting::first();
+        return view('latexmanager::config', compact('settings'));
+    }
+
+    /**
+     * Store the LatexManager settings.
+     */
+    public function storeConfig(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'pdflatex_path' => 'nullable|string', // Path can be nullable or empty
+        ]);
+
+        // Update or create the settings record (assuming ID 1 or first record)
+        LatexManagerSetting::updateOrCreate(
+            ['id' => 1], // Simple way to ensure only one record
+            ['pdflatex_path' => $validated['pdflatex_path']]
+        );
+
+        return redirect()->route('admin.latex-manager.config.show')
+                         ->with('success', 'Configuration updated successfully.');
+    }
+
+    /**
+     * Helper method to get the configured pdflatex path.
+     *
+     * @return string
+     */
+    public function getPdfLatexPath(): string
+    {
+        $settings = LatexManagerSetting::first();
+        $path = $settings->pdflatex_path ?? 'pdflatex'; // Default to 'pdflatex' if not set
+
+        // Simple quoting for paths with spaces, might need refinement based on OS/shell
+        if (str_contains($path, ' ') && !str_starts_with($path, '"')) {
+            $path = '"' . $path . '"';
+        }
+
+        return $path;
+    }
+
+    /**
      * Compile LaTeX code for preview.
      */
     public function compilePreview(Request $request)
@@ -132,8 +180,8 @@ class LatexItemController extends Controller
         // Write the .tex file
         Storage::disk('local')->put("temp_latex/{$tempDirName}/{$texFileName}", $latexContent);
 
-        // Define the full path to pdflatex
-        $pdflatexPath = '"C:\Users\sIn.jie\AppData\Local\Programs\MiKTeX\miktex\bin\x64\pdflatex"'; // Enclose in quotes for paths with spaces
+        // Define the full path to pdflatex using the helper method
+        $pdflatexPath = $this->getPdfLatexPath();
 
         // Construct the command string
         // Note: Using the full path now.

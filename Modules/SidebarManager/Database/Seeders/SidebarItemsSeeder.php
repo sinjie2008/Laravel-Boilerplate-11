@@ -172,6 +172,16 @@ class SidebarItemsSeeder extends Seeder
             'enabled' => true,
         ]);
 
+        SidebarItem::create([
+            'parent_id' => $system->id,
+            'name' => 'Latex Manager', // << Added item
+            'icon' => 'fas fa-fw fa-file-code', // Choose an appropriate icon
+            'route' => 'admin.latex-manager.index', // << Corrected route name
+            'order' => 38, // << New item order
+            // 'permission_required' => 'manage latex', // Example permission
+            'enabled' => true,
+        ]);
+
         // Add more items as needed...
     }
 }
