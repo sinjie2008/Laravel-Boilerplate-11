@@ -6,7 +6,7 @@ composer install
 php artisan key:generate
 php artisan migrate:fresh
 php artisan migrate
-php artisan module:migrate --seed
+php artisan module:migrate --seed --all
 
 npm install
 npm run build
