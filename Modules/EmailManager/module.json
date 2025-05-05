@@ -1,0 +1,11 @@
+{
+    "name": "EmailManager",
+    "alias": "emailmanager",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\EmailManager\\Providers\\EmailManagerServiceProvider"
+    ],
+    "files": []
+}

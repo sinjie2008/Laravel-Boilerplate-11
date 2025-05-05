@@ -192,6 +192,16 @@ class SidebarItemsSeeder extends Seeder
             'enabled' => true,
         ]);
 
+        SidebarItem::create([
+            'parent_id' => $system->id,
+            'name' => 'Email Manager', // Name for the menu item
+            'icon' => 'fas fa-fw fa-envelope', // Email icon
+            'route' => 'admin.email-manager.index', // Route defined in EmailManager module
+            'order' => 40, // Next available order
+            // 'permission_required' => 'manage email settings', // Optional permission
+            'enabled' => true,
+        ]);
+
         // Add more items as needed...
     }
 }

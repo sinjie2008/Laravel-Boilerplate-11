@@ -11,5 +11,6 @@
     "SidebarManager": true,
     "ExcelManager": true,
     "LatexManager": true,
-    "SettingManager": true
+    "SettingManager": true,
+    "EmailManager": true
 }

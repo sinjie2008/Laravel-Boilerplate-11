@@ -337,6 +337,14 @@ return [
             'icon' => 'fas fa-fw fa-key',
             'can'  => 'permissions_access',
         ],
+
+        // SETTINGS Section
+        [
+            'header' => 'SETTINGS',
+            // Add appropriate 'can' directive if needed, e.g., 'can' => 'manage_settings'
+        ],
+
+        // Removed Email Manager entry - will be added via SidebarManager
         // Removed Activity Log entry - will be added via Seeder
         // Removed static items: blog, User Management header, Users, Roles, Permissions, System header, Module Manager
         // These will now be loaded dynamically by SidebarMenuServiceProvider

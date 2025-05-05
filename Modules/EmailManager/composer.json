@@ -1,0 +1,30 @@
+{
+    "name": "nwidart/emailmanager",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\EmailManager\\": "app/",
+            "Modules\\EmailManager\\Database\\Factories\\": "database/factories/",
+            "Modules\\EmailManager\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\EmailManager\\Tests\\": "tests/"
+        }
+    }
+}

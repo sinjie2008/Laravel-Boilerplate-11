@@ -63,7 +63,7 @@ return [
             ]) : [],
             // Add the dump binary path for spatie/laravel-backup
             'dump' => [
-                'dump_binary_path' => 'C:/laragon/bin/mysql/mysql-8.0.30-winx64/bin/', // Adjust version if necessary
+                'dump_binary_path' => 'C:\\laragon\\bin\\mysql\\mysql-8.0.30-winx64\\bin\\mysqldump.exe', // Unquoted path with double backslashes
                 'useSingleTransaction' => true, // Optional: Improves performance for InnoDB tables
             ],
         ],
