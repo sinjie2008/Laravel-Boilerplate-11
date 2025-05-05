@@ -182,6 +182,16 @@ class SidebarItemsSeeder extends Seeder
             'enabled' => true,
         ]);
 
+        SidebarItem::create([
+            'parent_id' => $system->id,
+            'name' => 'Setting Manager', // Name for the menu item
+            'icon' => 'fas fa-fw fa-cog', // Settings icon
+            'route' => 'settings.index', // Route defined in SettingManager module
+            'order' => 39, // Next available order
+            // 'permission_required' => 'manage settings', // Optional permission
+            'enabled' => true,
+        ]);
+
         // Add more items as needed...
     }
 }

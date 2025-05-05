@@ -10,5 +10,6 @@
     "MediaManager": true,
     "SidebarManager": true,
     "ExcelManager": true,
-    "LatexManager": true
+    "LatexManager": true,
+    "SettingManager": true
 }

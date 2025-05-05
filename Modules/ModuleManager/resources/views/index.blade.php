@@ -124,10 +124,18 @@
                                         ];
 
                                         $viewRouteName = null;
-                                        foreach ($patterns as $pattern) {
-                                            if (Route::has($pattern)) {
-                                                $viewRouteName = $pattern;
-                                                break; // Use the first match found
+                                        // Specific check for SettingManager
+                                        if ($moduleName === 'SettingManager') {
+                                            if (Route::has('settings.index')) {
+                                                $viewRouteName = 'settings.index';
+                                            }
+                                        } else {
+                                            // Original pattern matching for other modules
+                                            foreach ($patterns as $pattern) {
+                                                if (Route::has($pattern)) {
+                                                    $viewRouteName = $pattern;
+                                                    break; // Use the first match found
+                                                }
                                             }
                                         }
                                     @endphp
