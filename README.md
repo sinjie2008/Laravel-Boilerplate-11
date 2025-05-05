@@ -1,41 +1,48 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 
-
 ## About Laravel Boilderplate 
-Boiler Plate Default Function
+Feat(core): Add boilerplate default functions and modules
 
-Admin Protal
+Admin Portal:
 - Theme AdminLTE
--  Query Builder
--  Backup
--  AI Chat to db
--  API Passport
+- Query Builder
+- API Passport
 
-Modules Convert
-- Todo List (Done)
--  AI SQL Generator (Done)
--  Role Premission  (Done)
-- Moduler Installer  (Done)
-- Document Upload  (Done)
-- Media Manager (Done)
-- Sidebar Manager (Done)
-- Activity Log  (Done)
-- Excel Manager (Done)
-- Latex Manager Module (Done)
+Default Modules Convert (Done):
 
-Backup Manager Module  (In Progress)
--- Create DB Backup (Done)
--- Create DB Restore (Done)
--- Create Files Backup (Bug)
--- Restore Files Backup (Not yet)
--- All in one backup (Not yet)
--- All in one restore (Not yet)
+Common
+- Todo List,
+- Document Upload
 
-Auto Setup (Done)
-- Setup.sh
+User Management
+- Users,
+- Role,
+- Permission
 
-Sample Config
+System Manager
+- Sidebar,
+- Media,
+- Module,
+- Backup,
+- Sql Generator,
+- Activity Log,
+- Excel,
+- LaTeX,
+-  Config
+
+Backup Manager Module (In Progress):
+- DB Backup/Restore (Done)
+- Files Backup (Bug), Files Restore (Not yet)
+- All-in-one Backup/Restore (Not yet)
+
+Update Patch
+-  Laravel Framework 11.44.7
+
+Auto Setup:
+- setup.sh
+
+Sample Config:
 - .env
 
 ## Installation Guide
@@ -43,6 +50,7 @@ Sample Config
 composer install
 php artisan key:generate
 php artisan migrate:fresh
+php artisan migrate --force
 php artisan module:migrate --seed --all
 
 npm install
@@ -53,10 +61,13 @@ php artisan config:clear
 php artisan route:clear
 php artisan view:clear
 php artisan storage:link
-php artisan tinker
-chmod -R 777 storage bootstrap/cache
-php artisan queue:work
 
+chmod -R 777 storage bootstrap/cache
+
+# Optional: background queue worker
+php artisan queue:work &
+
+# Start server
 php artisan serve
 
 
