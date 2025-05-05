@@ -5,7 +5,7 @@ echo "Running full Laravel setup..."
 composer install
 php artisan key:generate
 php artisan migrate:fresh
-php artisan migrate
+php artisan migrate --force
 php artisan module:migrate --seed --all
 
 npm install
