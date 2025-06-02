@@ -12,5 +12,7 @@
     "ExcelManager": true,
     "LatexManager": true,
     "SettingManager": true,
-    "EmailManager": true
+    "EmailManager": true,
+    "ServiceApi": true,
+    "SubscriptionManager": true
 }

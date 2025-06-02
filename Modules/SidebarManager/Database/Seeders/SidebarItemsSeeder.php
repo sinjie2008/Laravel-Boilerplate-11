@@ -202,6 +202,36 @@ class SidebarItemsSeeder extends Seeder
             'enabled' => true,
         ]);
 
+        // --- Subscription Management Section ---
+        $subscriptionManagement = SidebarItem::create([
+            'name' => 'Subscription',
+            'icon' => 'fas fa-fw fa-money-check-alt', // Icon for subscription management
+            'route' => null, // No direct route, it's a parent container
+            'order' => 41,
+            'enabled' => true,
+        ]);
+
+        SidebarItem::create([
+            'parent_id' => $subscriptionManagement->id,
+            'name' => 'Plans',
+            'icon' => 'fas fa-fw fa-file-invoice-dollar', // Icon for plans and subscriptions
+            'route' => 'admin.plans.index', // Adjust route name if needed
+            'order' => 42,
+            // 'permission_required' => 'view plans and subscriptions', // Example permission
+            'enabled' => true,
+        ]);
+
+        SidebarItem::create([
+            'parent_id' => $subscriptionManagement->id,
+            'name' => 'Subscriptions',
+            'icon' => 'fas fa-fw fa-file-invoice-dollar', // Icon for plans and subscriptions
+            'route' => 'admin.subscriptions.index', // Adjust route name if needed
+            'order' => 42,
+            // 'permission_required' => 'view plans and subscriptions', // Example permission
+            'enabled' => true,
+        ]);
+
+
         // Add more items as needed...
     }
 }

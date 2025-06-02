@@ -1,18 +1,18 @@
 <?php
 
-namespace Modules\SettingManager\App\Http\Controllers;
+namespace Modules\ServiceApi\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class SettingManagerController extends Controller
+class ServiceApiController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('settingmanager::index');
+        return view('serviceapi::index');
     }
 
     /**
@@ -20,7 +20,7 @@ class SettingManagerController extends Controller
      */
     public function create()
     {
-        return view('settingmanager::create');
+        return view('serviceapi::create');
     }
 
     /**
@@ -36,7 +36,7 @@ class SettingManagerController extends Controller
      */
     public function show($id)
     {
-        return view('settingmanager::show');
+        return view('serviceapi::show');
     }
 
     /**
@@ -44,7 +44,7 @@ class SettingManagerController extends Controller
      */
     public function edit($id)
     {
-        return view('settingmanager::edit');
+        return view('serviceapi::edit');
     }
 
     /**
