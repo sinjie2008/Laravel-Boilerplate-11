@@ -1,29 +1,19 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@extends('adminlte::page')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+@section('title', 'Service API Module')
 
-    <title>ServiceApi Module - {{ config('app.name', 'Laravel') }}</title>
+@section('content_header')
+    <h1>Service API Module</h1>
+@stop
 
-    <meta name="description" content="{{ $description ?? '' }}">
-    <meta name="keywords" content="{{ $keywords ?? '' }}">
-    <meta name="author" content="{{ $author ?? '' }}">
+@section('content')
+    {{-- This section will be filled by individual service views --}}
+@stop
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+@section('css')
+    {{-- Add here the CSS to be loaded for this page --}}
+@stop
 
-    {{-- Vite CSS --}}
-    {{-- {{ module_vite('build-serviceapi', 'resources/assets/sass/app.scss', storage_path('vite.hot')) }} --}}
-</head>
-
-<body>
-    @yield('content')
-
-    {{-- Vite JS --}}
-    {{-- {{ module_vite('build-serviceapi', 'resources/assets/js/app.js', storage_path('vite.hot')) }} --}}
-</body>
+@section('js')
+    <script> console.log('Hi, this is the Service API module!'); </script>
+@stop

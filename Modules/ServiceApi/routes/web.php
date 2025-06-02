@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\ServiceApi\Http\Controllers\ServiceApiController;
+use Modules\ServiceApi\Http\Controllers\ServiceWebController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +14,6 @@ use Modules\ServiceApi\Http\Controllers\ServiceApiController;
 |
 */
 
-Route::group([], function () {
-    Route::resource('serviceapi', ServiceApiController::class)->names('serviceapi');
+Route::prefix('admin')->group(function () {
+    Route::resource('serviceapi-manager', ServiceWebController::class)->names('serviceapi.services');
 });
