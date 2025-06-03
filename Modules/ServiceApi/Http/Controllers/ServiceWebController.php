@@ -11,11 +11,32 @@ class ServiceWebController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Fetch all services from database
-        $services = Service::all();
-        return view('serviceapi::services.index', compact('services'));
+        if ($request->ajax()) {
+            $query = Service::query();
+            $total = $query->count();
+            $filtered = $total; // For now, no filtering logic
+            $services = $query->get();
+
+            $data = [];
+            foreach ($services as $service) {
+                $data[] = [
+                    'id' => $service->id,
+                    'name' => $service->name,
+                    'description' => $service->description,
+                    'action' => view('serviceapi::services.partials.actions', compact('service'))->render(),
+                ];
+            }
+
+            return response()->json([
+                'draw' => intval($request->input('draw')),
+                'recordsTotal' => $total,
+                'recordsFiltered' => $filtered,
+                'data' => $data,
+            ]);
+        }
+        return view('serviceapi::services.index');
     }
 
     /**

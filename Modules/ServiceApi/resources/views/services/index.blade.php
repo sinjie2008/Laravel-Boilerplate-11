@@ -1,5 +1,7 @@
 @extends('adminlte::page')
 
+@section('plugins.Datatables', true)
+
 @section('title', 'Service List')
 
 @section('content_header')
@@ -7,45 +9,54 @@
 @stop
 
 @section('content')
-
-    @if (session('success'))
-        <div style="color: green;">
-            {{ session('success') }}
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Service List</h3>
         </div>
-    @endif
+        <div class="card-body">
+            @if ($message = Session::get('success'))
+                <div class="alert alert-success">
+                    <p>{{ $message }}</p>
+                </div>
+            @endif
 
-    <a href="{{ route('serviceapi.services.create') }}">Create New Service</a>
+            <a href="{{ route('serviceapi.services.create') }}" class="btn btn-success mb-3">Create New Service</a>
 
-    @if (empty($services))
-        <p>No services found.</p>
-    @else
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($services as $service)
+            <table class="table table-bordered" id="services-table">
+                <thead>
                     <tr>
-                        <td>{{ $service['id'] }}</td>
-                        <td>{{ $service['name'] }}</td>
-                        <td>{{ $service['description'] }}</td>
-                        <td>
-                            <a href="{{ route('serviceapi.services.show', $service['id']) }}">View</a>
-                            <a href="{{ route('serviceapi.services.edit', $service['id']) }}">Edit</a>
-                            <form action="{{ route('serviceapi.services.destroy', $service['id']) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" onclick="return confirm('Are you sure?')">Delete</button>
-                            </form>
-                        </td>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Action</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
-    @endif
-@endsection
+                </thead>
+                <tbody>
+                    {{-- Table body will be populated by DataTables via AJAX or server-side rendering --}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+@stop
+
+@section('css')
+    {{-- Add custom CSS if needed --}}
+@stop
+
+@push('js')
+    <script>
+        $(document).ready(function() {
+            $('#services-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{ route('serviceapi.services.index') }}',
+                columns: [
+                    { data: 'id', name: 'id' },
+                    { data: 'name', name: 'name' },
+                    { data: 'description', name: 'description' },
+                    { data: 'action', name: 'action', orderable: false, searchable: false }
+                ]
+            });
+        });
+    </script>
+@endpush

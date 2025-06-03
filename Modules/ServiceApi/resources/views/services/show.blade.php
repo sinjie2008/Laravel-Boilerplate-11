@@ -7,17 +7,21 @@
 @stop
 
 @section('content')
+    <h1>Show Service</h1>
 
-    <div>
-        <strong>ID:</strong> {{ $service['id'] }}
+    <div class="form-group">
+        <strong>ID:</strong>
+        {{ $service['id'] }}
     </div>
-    <div>
-        <strong>Name:</strong> {{ $service['name'] }}
+    <div class="form-group">
+        <strong>Name:</strong>
+        {{ $service['name'] }}
     </div>
-    <div>
-        <strong>Description:</strong> {{ $service['description'] }}
+    <div class="form-group">
+        <strong>Description:</strong>
+        {{ $service['description'] }}
     </div>
 
-    <a href="{{ route('serviceapi.services.edit', $service['id']) }}">Edit Service</a>
-    <a href="{{ route('serviceapi.services.index') }}">Back to Service List</a>
+    <a class="btn btn-primary" href="{{ route('serviceapi.services.edit', $service['id']) }}">Edit Service</a>
+    <a class="btn btn-secondary" href="{{ route('serviceapi.services.index') }}">Back to Service List</a>
 @endsection
