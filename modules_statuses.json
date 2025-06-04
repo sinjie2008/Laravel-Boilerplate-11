@@ -12,5 +12,6 @@
     "ExcelManager": true,
     "LatexManager": true,
     "SettingManager": true,
-    "EmailManager": true
+    "EmailManager": true,
+    "FundRequest": true
 }

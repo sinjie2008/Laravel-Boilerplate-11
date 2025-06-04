@@ -172,6 +172,7 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         // App\Providers\ActivityLogServiceProvider::class, // Removed - Handled by module
         Modules\TodoList\App\Providers\TodoListServiceProvider::class,
+        Nwidart\Modules\LaravelModulesServiceProvider::class,
     ])->toArray(),
 
     /*
