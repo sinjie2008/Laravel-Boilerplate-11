@@ -75,3 +75,9 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     // Module routes are typically registered within their own service providers
     // No need to add SqlGenerator routes here manually if the module provider handles it
 });
+
+Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
+    Route::get('fund-requests', function () {
+        return 'Fund Requests';
+    })->name('fundrequest.fundrequests.index');
+});

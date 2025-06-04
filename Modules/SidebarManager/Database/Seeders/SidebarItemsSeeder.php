@@ -53,6 +53,15 @@ class SidebarItemsSeeder extends Seeder
             'enabled' => true,
         ]);
 
+        SidebarItem::create([
+            'parent_id' => $engineeringManagement->id,
+            'name' => 'Fund Requests',
+            'icon' => 'fas fa-fw fa-dollar-sign',
+            'route' => 'fundrequest.fundrequests.index',
+            'order' => 13, // next available order
+            'enabled' => true,
+        ]);
+
 
         // --- User Management Section ---
         $userManagement = SidebarItem::create([
