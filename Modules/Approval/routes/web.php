@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\Approval\Http\Controllers\ApprovalController;
+use Modules\Approval\App\Http\Controllers\ApprovalController;
 
 /*
 |--------------------------------------------------------------------------
