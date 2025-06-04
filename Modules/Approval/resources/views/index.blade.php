@@ -22,6 +22,7 @@
             <td>
                 <a href="{{ route('approval.items.show', $item) }}" class="btn btn-info btn-sm">View</a>
                 <a href="{{ route('approval.items.edit', $item) }}" class="btn btn-secondary btn-sm">Edit</a>
+                <x-ringlesoft-approval-actions :model="$item" class="d-inline" />
                 <form action="{{ route('approval.items.destroy', $item) }}" method="POST" class="d-inline">
                     @csrf
                     @method('DELETE')
