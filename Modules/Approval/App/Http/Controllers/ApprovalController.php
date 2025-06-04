@@ -14,7 +14,7 @@ class ApprovalController extends Controller
      */
     public function index()
     {
-        $items = ApprovalItem::all();
+        $items = ApprovalItem::with('approvalStatus')->get();
 
         return view('approval::index', compact('items'));
     }

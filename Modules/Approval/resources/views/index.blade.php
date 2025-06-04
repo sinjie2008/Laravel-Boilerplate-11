@@ -8,6 +8,7 @@
     <thead>
         <tr>
             <th>Title</th>
+            <th>Status</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -15,6 +16,9 @@
     @foreach($items as $item)
         <tr>
             <td>{{ $item->title }}</td>
+            <td>
+                <x-ringlesoft-approval-status-summary :model="$item" />
+            </td>
             <td>
                 <a href="{{ route('approval.items.show', $item) }}" class="btn btn-info btn-sm">View</a>
                 <a href="{{ route('approval.items.edit', $item) }}" class="btn btn-secondary btn-sm">Edit</a>

@@ -5,6 +5,7 @@
     <div class="card-body">
         <h4>{{ $item->title }}</h4>
         <p>{{ $item->description }}</p>
+        <x-ringlesoft-approval-status-summary :model="$item" class="mb-3" />
         <x-ringlesoft-approval-actions :model="$item" />
     </div>
 </div>
