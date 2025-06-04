@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
 
         $this->call(\Modules\Role\Database\Seeders\RoleDatabaseSeeder::class);
         $this->call(\Modules\SidebarManager\Database\Seeders\SidebarItemsSeeder::class);
+        $this->call(\Modules\FundRequest\Database\Seeders\FundRequestDatabaseSeeder::class);
     }
 }

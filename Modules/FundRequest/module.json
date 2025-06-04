@@ -1,0 +1,11 @@
+{
+    "name": "FundRequest",
+    "alias": "fundrequest",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\FundRequest\\App\\Providers\\FundRequestServiceProvider"
+    ],
+    "files": []
+}
