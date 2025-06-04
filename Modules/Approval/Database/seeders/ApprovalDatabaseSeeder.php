@@ -20,10 +20,14 @@ class ApprovalDatabaseSeeder extends Seeder
             $flow = ProcessApproval::flowsWithSteps()->firstWhere('approvable_type', ApprovalItem::class);
         }
 
-        $role = Role::firstOrCreate(['name' => 'admin']);
+        $staffRole = Role::firstOrCreate(['name' => 'staff']);
+        $adminRole = Role::firstOrCreate(['name' => 'admin']);
+        $superRole = Role::firstOrCreate(['name' => 'super-admin']);
 
         if ($flow && !$flow->steps()->exists()) {
-            ProcessApproval::createStep($flow->id, $role->id);
+            ProcessApproval::createStep($flow->id, $staffRole->id, \RingleSoft\LaravelProcessApproval\Enums\ApprovalTypeEnum::VERIFY);
+            ProcessApproval::createStep($flow->id, $adminRole->id);
+            ProcessApproval::createStep($flow->id, $superRole->id);
         }
     }
 }
