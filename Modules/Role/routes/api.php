@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Modules\Role\App\Http\Controllers\Auth\ApiTokenController;
 
 /*
     |--------------------------------------------------------------------------
@@ -14,6 +15,9 @@ use Illuminate\Support\Facades\Route;
     |
 */
 
+Route::post('v1/login', [ApiTokenController::class, 'login'])->name('api.login');
+
 Route::middleware(['auth:sanctum'])->prefix('v1')->name('api.')->group(function () {
+    Route::post('logout', [ApiTokenController::class, 'logout'])->name('logout');
     Route::get('role', fn (Request $request) => $request->user())->name('role');
 });
