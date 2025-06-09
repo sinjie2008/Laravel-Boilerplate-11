@@ -1,0 +1,23 @@
+{
+    "name": "nwidart/post",
+    "description": "Post module",
+    "autoload": {
+        "psr-4": {
+            "Modules\\Post\\": "",
+            "Modules\\Post\\App\\": "app/",
+            "Modules\\Post\\Database\\Factories\\": "database/factories/",
+            "Modules\\Post\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Post\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    }
+}
