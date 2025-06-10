@@ -186,7 +186,7 @@ class SidebarItemsSeeder extends Seeder
             'parent_id' => $system->id,
             'name' => 'Setting Manager', // Name for the menu item
             'icon' => 'fas fa-fw fa-cog', // Settings icon
-            'route' => 'settings.index', // Route defined in SettingManager module
+            'route' => 'admin.settings.index', // Route defined in SettingManager module
             'order' => 39, // Next available order
             // 'permission_required' => 'manage settings', // Optional permission
             'enabled' => true,

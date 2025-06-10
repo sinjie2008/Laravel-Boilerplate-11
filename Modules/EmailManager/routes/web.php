@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\EmailManager\App\Http\Controllers\EmailManagerController;
+use Modules\EmailManager\Http\Controllers\EmailManagerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,8 +14,7 @@ use Modules\EmailManager\App\Http\Controllers\EmailManagerController;
 |
 */
 
-Route::middleware(['auth'])->prefix('admin/email-manager')->name('admin.email-manager.')->group(function () {
-    Route::get('/', [EmailManagerController::class, 'index'])->name('index');
-    Route::post('/update', [EmailManagerController::class, 'update'])->name('update');
-    Route::post('/send-test-email', [EmailManagerController::class, 'sendTestEmail'])->name('send-test-email');
+Route::prefix('admin')->group(function () {
+    Route::resource('email-manager', EmailManagerController::class)->names('admin.email-manager');
+    Route::post('email-manager/test-send', [EmailManagerController::class, 'testSend'])->name('admin.email-manager.test-send');
 });
