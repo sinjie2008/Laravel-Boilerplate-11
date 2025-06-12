@@ -7,5 +7,8 @@
     "providers": [
         "Modules\\Post\\App\\Providers\\PostServiceProvider"
     ],
-    "files": []
+    "files": [],
+    "aliases": {},
+    "requires": [],
+    "view_route": "admin.posts.index"
 }

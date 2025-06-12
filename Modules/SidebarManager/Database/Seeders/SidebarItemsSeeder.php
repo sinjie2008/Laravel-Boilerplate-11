@@ -53,7 +53,15 @@ class SidebarItemsSeeder extends Seeder
             'enabled' => true,
         ]);
 
-
+        SidebarItem::create([
+            'parent_id' => $engineeringManagement->id,
+            'name' => 'Posts', // Name for the menu item
+            'icon' => 'fas fa-fw fa-newspaper', // Choose an appropriate icon for posts
+            'route' => 'admin.posts.index', // Route defined in Post module's module.json
+            'order' => 13, // Next available order after Documents
+            // 'permission_required' => 'view posts', // Optional permission
+            'enabled' => true,
+        ]);
         // --- User Management Section ---
         $userManagement = SidebarItem::create([
             'name' => 'User Management',

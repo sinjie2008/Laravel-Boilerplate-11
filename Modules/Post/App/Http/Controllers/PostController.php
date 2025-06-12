@@ -9,13 +9,31 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Modules\Post\App\Models\Post;
+use Yajra\DataTables\Facades\DataTables;
 
 class PostController extends Controller
 {
-    public function index(): View
+    public function index(Request $request)
     {
-        $posts = Post::latest()->get();
-        return view('post::index', compact('posts'));
+        if ($request->ajax()) {
+            $data = Post::select(['id', 'title']);
+            return DataTables::of($data)
+                    ->addColumn('action', function($row){
+                           $editUrl = route('admin.posts.edit', $row->id);
+                           $deleteUrl = route('admin.posts.destroy', $row->id);
+                           $csrf = csrf_field();
+                           $method = method_field('DELETE');
+
+                           $btn = '<a href="'.$editUrl.'" class="btn btn-primary btn-sm">Edit</a> ';
+                           $btn .= '<form action="'.$deleteUrl.'" method="POST" style="display:inline-block;">'.$csrf.$method.'<button type="submit" class="btn btn-danger btn-sm">Delete</button></form>';
+
+                            return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
+
+        return view('post::index');
     }
 
     public function create(): View

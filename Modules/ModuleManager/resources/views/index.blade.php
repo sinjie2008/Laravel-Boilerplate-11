@@ -124,12 +124,27 @@
                                         ];
 
                                         $viewRouteName = null;
-                                        // Specific check for SettingManager
-                                        if ($moduleName === 'SettingManager') {
-                                            if (Route::has('settings.index')) {
-                                                $viewRouteName = 'settings.index';
-                                            }
+
+                                        // 1. Try to get route from 'view_route' in module.json
+                                        $configuredViewRoute = $module->get('view_route');
+                                        if ($configuredViewRoute && Route::has($configuredViewRoute)) {
+                                            $viewRouteName = $configuredViewRoute;
                                         } else {
+                                            // 2. Fallback to pattern matching if no configured route or route doesn't exist
+                                            // Define potential route name patterns
+                                            $patterns = [
+                                                // Admin prefix + Kebab-case: admin.module-name.index (e.g., admin.sql-generator.index)
+                                                'admin.' . $kebabModuleName . '.index',
+                                                // Admin prefix + Lowercase: admin.module.index (e.g., admin.role.index)
+                                                'admin.' . $lowerModuleName . '.index',
+                                                // Resource route: module.pluralModule.index (e.g., document.documents.index)
+                                                $lowerModuleName . '.' . Illuminate\Support\Str::plural($lowerModuleName) . '.index',
+                                                // Simple lowercase: module.index (e.g., activitylog.index)
+                                                $lowerModuleName . '.index',
+                                                // Kebab-case: module-name.index (e.g., backup-manager.index)
+                                                $kebabModuleName . '.index',
+                                            ];
+
                                             // Original pattern matching for other modules
                                             foreach ($patterns as $pattern) {
                                                 if (Route::has($pattern)) {

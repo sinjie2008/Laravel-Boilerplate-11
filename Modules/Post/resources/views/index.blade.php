@@ -1,5 +1,7 @@
 @extends('adminlte::page')
 
+@section('plugins.Datatables', true)
+
 @section('title', 'Posts')
 
 @section('content_header')
@@ -7,30 +9,40 @@
 @endsection
 
 @section('content')
-    <a href="{{ route('admin.posts.create') }}" class="btn btn-primary mb-3">Create Post</a>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($posts as $post)
-                <tr>
-                    <td>{{ $post->id }}</td>
-                    <td>{{ $post->title }}</td>
-                    <td>
-                        <a href="{{ route('admin.posts.edit', $post) }}" class="btn btn-sm btn-secondary">Edit</a>
-                        <form action="{{ route('admin.posts.destroy', $post) }}" method="POST" style="display:inline-block;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Posts List</h3>
+        </div>
+        <div class="card-body">
+            <a href="{{ route('admin.posts.create') }}" class="btn btn-primary mb-3">Create Post</a>
+            <table class="table table-bordered" id="posts-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
 @endsection
+
+@push('js')
+    <script>
+        $(document).ready(function() {
+            $('#posts-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{ route('admin.posts.index') }}',
+                columns: [
+                    { data: 'id', name: 'id' },
+                    { data: 'title', name: 'title' },
+                    { data: 'action', name: 'action', orderable: false, searchable: false }
+                ]
+            });
+        });
+    </script>
+@endpush
