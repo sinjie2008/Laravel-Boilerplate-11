@@ -13,5 +13,6 @@
     "LatexManager": true,
     "SettingManager": true,
     "EmailManager": true,
-    "Post": true
+    "Post": true,
+    "SettingsManager": true
 }

@@ -37,7 +37,8 @@
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
             "Modules\\": "Modules/",
-            "Modules\\EmailManager\\": "Modules/EmailManager/app/"
+            "Modules\\EmailManager\\": "Modules/EmailManager/app/",
+            "Modules\\SettingsManager\\": "Modules/SettingsManager/app/"
         }
     },
     "autoload-dev": {

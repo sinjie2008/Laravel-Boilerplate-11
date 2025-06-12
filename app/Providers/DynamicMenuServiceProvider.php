@@ -64,6 +64,12 @@ class DynamicMenuServiceProvider extends ServiceProvider
                 ],
                 // Note: 'Role' seems to be core or handled differently, not included here.
                 // 'ModuleManager' is handled statically in config/adminlte.php
+                'SettingsManager' => [
+                    'text' => 'Settings Manager',
+                    'route' => 'admin.settings-manager.index',
+                    'icon' => 'fas fa-cogs',
+                    'order' => 70 // Adjust order as needed
+                ],
             ];
 
             // Get all enabled modules
