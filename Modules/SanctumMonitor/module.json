@@ -1,0 +1,11 @@
+{
+    "name": "SanctumMonitor",
+    "alias": "sanctummonitor",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\SanctumMonitor\\App\\Providers\\SanctumMonitorServiceProvider"
+    ],
+    "files": []
+}

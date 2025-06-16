@@ -14,5 +14,6 @@
     "SettingManager": true,
     "EmailManager": true,
     "Post": true,
-    "SettingsManager": true
+    "SettingsManager": true,
+    "SanctumMonitor": true
 }
