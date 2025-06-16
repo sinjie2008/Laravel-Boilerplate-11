@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\PersonalAccessToken;
 use Modules\SanctumMonitor\App\Models\ApiActivity;
 use Modules\SanctumMonitor\App\Models\TokenAuditLog;
+use Yajra\DataTables\Facades\DataTables;
 
 class SanctumMonitorController extends Controller
 {
@@ -24,6 +25,32 @@ class SanctumMonitorController extends Controller
         $tokens = PersonalAccessToken::with('tokenable')->latest()->get();
 
         return view('sanctummonitor::tokens', compact('tokens'));
+    }
+
+    public function tokensData()
+    {
+        $tokens = PersonalAccessToken::with('tokenable')->select('personal_access_tokens.*');
+
+        return DataTables::of($tokens)
+            ->addColumn('user_name', function (PersonalAccessToken $token) {
+                return optional($token->tokenable)->name;
+            })
+            ->addColumn('ip', function (PersonalAccessToken $token) {
+                return $token->ip;
+            })
+            ->addColumn('abilities_list', function (PersonalAccessToken $token) {
+                return implode(', ', $token->abilities ?? []);
+            })
+            ->addColumn('action', function (PersonalAccessToken $token) {
+                $route = route('admin.sanctummonitor.tokens.revoke', $token->id);
+                return '<form action="'.$route.'" method="POST" onsubmit="return confirm(\'Are you sure you want to revoke this token?\');">
+                            '.csrf_field().'
+                            '.method_field('DELETE').'
+                            <button type="submit" class="btn btn-danger btn-sm">Revoke</button>
+                        </form>';
+            })
+            ->rawColumns(['action'])
+            ->make(true);
     }
 
     public function revoke(int $tokenId): RedirectResponse
@@ -50,6 +77,23 @@ class SanctumMonitorController extends Controller
         return view('sanctummonitor::activity', compact('activities'));
     }
 
+    public function activityData()
+    {
+        try {
+            $activities = ApiActivity::with('user')->select('api_activities.*');
+
+            return DataTables::of($activities)
+                ->addColumn('user_name', function (ApiActivity $activity) {
+                    return optional($activity->user)->name;
+                })
+                ->rawColumns(['user_name'])
+                ->make(true);
+        } catch (\Exception $e) {
+            \Log::error('DataTables AJAX Error in activityData: ' . $e->getMessage(), ['exception' => $e]);
+            return response()->json(['error' => 'An error occurred while fetching data.'], 500);
+        }
+    }
+
     public function stats()
     {
         $totalRequests = ApiActivity::count();
@@ -58,7 +102,8 @@ class SanctumMonitorController extends Controller
             ->orderByDesc('total')
             ->limit(5)
             ->get();
-        $topUsers = ApiActivity::select('user_id', DB::raw('count(*) as total'))
+        $topUsers = ApiActivity::with('user') // Eager load the user relationship
+            ->select('user_id', DB::raw('count(*) as total'))
             ->whereNotNull('user_id')
             ->groupBy('user_id')
             ->orderByDesc('total')
@@ -73,6 +118,18 @@ class SanctumMonitorController extends Controller
         $logs = TokenAuditLog::latest()->paginate(50);
 
         return view('sanctummonitor::logs', compact('logs'));
+    }
+
+    public function logsData()
+    {
+        $logs = TokenAuditLog::with('user')->select('token_audit_logs.*');
+
+        return DataTables::of($logs)
+            ->addColumn('user_name', function (TokenAuditLog $log) {
+                return optional($log->user)->name;
+            })
+            ->rawColumns(['user_name'])
+            ->make(true);
     }
 
     public function settings(Request $request)

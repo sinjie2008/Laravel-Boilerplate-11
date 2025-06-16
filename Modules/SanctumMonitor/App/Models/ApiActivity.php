@@ -21,6 +21,6 @@ class ApiActivity extends Model
 
     public function user()
     {
-        return $this->belongsTo(\App\Models\User::class);
+        return $this->belongsTo(\Modules\Role\App\Models\User::class);
     }
 }

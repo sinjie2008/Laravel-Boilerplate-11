@@ -1,9 +1,18 @@
-@extends('sanctummonitor::layouts.master')
+@extends('adminlte::page')
+
+@section('plugins.Datatables', true)
+
+@section('content_header')
+    <h1>Sanctum Monitor Activity</h1>
+@stop
 
 @section('content')
-<div class="container mx-auto p-4">
-    <h2 class="text-xl font-bold mb-4">Activity</h2>
-    <table class="table-auto w-full">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Sanctum Monitor Activity</h3>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered" id="activity-table">
         <thead>
             <tr>
                 <th>User</th>
@@ -15,18 +24,33 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($activities as $activity)
-            <tr>
-                <td>{{ optional($activity->user)->name }}</td>
-                <td>{{ $activity->route }}</td>
-                <td>{{ $activity->ip_address }}</td>
-                <td>{{ $activity->method }}</td>
-                <td>{{ $activity->user_agent }}</td>
-                <td>{{ $activity->created_at }}</td>
-            </tr>
-            @endforeach
+            {{-- DataTables will populate this table body via AJAX --}}
         </tbody>
     </table>
-    {{ $activities->links() }}
-</div>
-@endsection
+        </div>
+    </div>
+@stop
+
+@section('css')
+    {{-- Add custom CSS if needed --}}
+@stop
+
+@push('js')
+    <script>
+        $(document).ready(function() {
+            $('#activity-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{ route('admin.sanctummonitor.activity.data') }}',
+                columns: [
+                    { data: 'user_name', name: 'user_name' },
+                    { data: 'route', name: 'route' },
+                    { data: 'ip_address', name: 'ip_address' },
+                    { data: 'method', name: 'method' },
+                    { data: 'user_agent', name: 'user_agent' },
+                    { data: 'created_at', name: 'created_at' }
+                ]
+            });
+        });
+    </script>
+@endpush

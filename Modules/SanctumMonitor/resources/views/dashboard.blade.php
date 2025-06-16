@@ -1,9 +1,16 @@
-@extends('sanctummonitor::layouts.master')
+@extends('adminlte::page')
+
+@section('content_header')
+    <h1>Sanctum Monitor Dashboard</h1>
+@stop
 
 @section('content')
-<div class="container mx-auto p-4">
-    <h1 class="text-2xl font-bold mb-4">Sanctum Monitor</h1>
-    <ul class="space-x-4">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Sanctum Monitor Dashboard</h3>
+        </div>
+        <div class="card-body">
+            <ul class="space-x-4">
         <li><a href="{{ route('admin.sanctummonitor.tokens') }}">Tokens</a></li>
         <li><a href="{{ route('admin.sanctummonitor.activity') }}">Activity</a></li>
         <li><a href="{{ route('admin.sanctummonitor.stats') }}">Stats</a></li>

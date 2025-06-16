@@ -19,4 +19,9 @@ class TokenAuditLog extends Model
         'ip_address',
         'user_id',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(\Modules\Role\App\Models\User::class);
+    }
 }

@@ -1,19 +1,27 @@
-@extends('sanctummonitor::layouts.master')
+@extends('adminlte::page')
+
+@section('content_header')
+    <h1>Sanctum Monitor Settings</h1>
+@stop
 
 @section('content')
-<div class="container mx-auto p-4">
-    <h2 class="text-xl font-bold mb-4">Settings</h2>
-    <form method="POST" action="{{ route('admin.sanctummonitor.settings') }}">
-        @csrf
-        <div>
-            <label>Log Retention Days</label>
-            <input type="number" name="log_retention_days" value="{{ $log_retention_days }}">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Settings</h3>
         </div>
-        <div>
-            <label>Enable Logging</label>
-            <input type="checkbox" name="enable_logging" value="1" {{ $enable_logging ? 'checked' : '' }}>
+        <div class="card-body">
+            <form method="POST" action="{{ route('admin.sanctummonitor.settings') }}">
+                @csrf
+                <div class="form-group">
+                    <label for="log_retention_days">Log Retention Days</label>
+                    <input type="number" name="log_retention_days" id="log_retention_days" class="form-control" value="{{ $log_retention_days }}">
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" name="enable_logging" id="enable_logging" class="form-check-input" value="1" {{ $enable_logging ? 'checked' : '' }}>
+                    <label class="form-check-label" for="enable_logging">Enable Logging</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
         </div>
-        <button type="submit">Save</button>
-    </form>
-</div>
-@endsection
+    </div>
+@stop
