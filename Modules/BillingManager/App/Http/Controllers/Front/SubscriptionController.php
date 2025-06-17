@@ -7,19 +7,34 @@ namespace Modules\BillingManager\App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Laravel\Cashier\Facades\Cashier;
+use Modules\BillingManager\Services\SubscriptionService;
 
 class SubscriptionController extends Controller
 {
+    public function __construct(private SubscriptionService $subscriptions)
+    {
+    }
+
     public function store(Request $request): RedirectResponse
     {
-        // Subscription creation logic placeholder
+        $request->validate([
+            'price' => 'required|string',
+            'payment_method' => 'nullable|string',
+        ]);
+
+        $this->subscriptions->subscribe(
+            $request->user(),
+            $request->string('price')->toString(),
+            $request->string('payment_method')->toString()
+        );
+
         return redirect()->route('billing.index');
     }
 
-    public function cancel(): RedirectResponse
+    public function cancel(Request $request): RedirectResponse
     {
-        // Subscription cancel logic placeholder
+        $this->subscriptions->cancel($request->user());
+
         return redirect()->route('billing.index');
     }
 }
