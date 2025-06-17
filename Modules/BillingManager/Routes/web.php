@@ -10,6 +10,7 @@ Route::middleware('auth')
         Route::get('/', Front\DashboardController::class)->name('index');
         Route::post('/subscribe', [Front\SubscriptionController::class, 'store'])->name('subscribe');
         Route::post('/cancel', [Front\SubscriptionController::class, 'cancel'])->name('cancel');
+        Route::post('/resume', [Front\SubscriptionController::class, 'resume'])->name('resume');
         Route::get('/invoices/{invoice}', Front\InvoiceController::class)->name('invoice');
     });
 

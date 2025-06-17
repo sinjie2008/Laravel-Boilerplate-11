@@ -15,6 +15,6 @@
     "EmailManager": true,
     "Post": true,
     "SettingsManager": true,
-    "SanctumMonitor": true
-    ,"BillingManager": true
+    "SanctumMonitor": true,
+    "BillingManager": true
 }

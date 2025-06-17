@@ -37,4 +37,11 @@ class SubscriptionController extends Controller
 
         return redirect()->route('billing.index');
     }
+
+    public function resume(Request $request): RedirectResponse
+    {
+        $this->subscriptions->resume($request->user());
+
+        return redirect()->route('billing.index');
+    }
 }

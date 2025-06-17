@@ -24,4 +24,9 @@ class SubscriptionService
     {
         $user->subscription('default')?->cancel();
     }
+
+    public function resume(User $user): void
+    {
+        $user->subscription('default')?->resume();
+    }
 }

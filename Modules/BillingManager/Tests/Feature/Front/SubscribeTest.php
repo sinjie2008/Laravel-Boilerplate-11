@@ -22,4 +22,19 @@ class SubscribeTest extends TestCase
 
         Cashier::assertCharges(1);
     }
+
+    public function test_user_can_resume_subscription(): void
+    {
+        Cashier::fake();
+        $user = User::factory()->create();
+        $this->actingAs($user)
+            ->post(route('billing.subscribe'), ['price' => 'price_test']);
+
+        $this->post(route('billing.cancel'));
+
+        $this->post(route('billing.resume'))
+            ->assertRedirect();
+
+        Cashier::assertCharges(1);
+    }
 }
