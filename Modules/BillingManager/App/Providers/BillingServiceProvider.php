@@ -26,6 +26,6 @@ class BillingServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/../../Routes/api.php');
         $this->loadViewsFrom(module_path('BillingManager', 'Resources/views'), 'billing');
 
-        Gate::define('manage-billing', fn (\App\Models\User $u) => $u->role === 'admin');
+        Gate::define('manage-billing', fn (\Modules\Role\App\Models\User $u) => $u->hasAnyRole(['admin', 'super-admin']));
     }
 }
