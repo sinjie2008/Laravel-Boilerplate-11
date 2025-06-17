@@ -4,7 +4,7 @@ namespace Modules\BillingManager\Tests\Feature\Front;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Laravel\Cashier\Facades\Cashier;
+use Laravel\Cashier\Cashier;
 use Tests\TestCase;
 
 class SubscribeTest extends TestCase
