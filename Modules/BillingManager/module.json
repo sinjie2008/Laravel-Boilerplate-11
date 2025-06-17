@@ -1,0 +1,12 @@
+{
+    "name": "BillingManager",
+    "alias": "billingmanager",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\BillingManager\\App\\Providers\\BillingServiceProvider",
+        "Modules\\BillingManager\\App\\Providers\\RouteServiceProvider"
+    ],
+    "files": []
+}
