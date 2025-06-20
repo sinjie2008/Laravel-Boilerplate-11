@@ -53,6 +53,19 @@
         {{-- Configured user menu links --}}
         @each('adminlte::partials.navbar.dropdown-item', $adminlte->menu("navbar-user"), 'item')
 
+        @if(session()->has('impersonator_id'))
+            @can('manage-billing')
+                <li class="px-4">
+                    <form action="{{ route('admin.impersonate.stop') }}" method="POST">
+                        @csrf
+                        <button class="btn btn-warning btn-block" type="submit">
+                            <i class="fa fa-user-secret"></i> End Impersonation
+                        </button>
+                    </form>
+                </li>
+            @endcan
+        @endif
+
         {{-- User menu body --}}
         @hasSection('usermenu_body')
             <li class="user-body">
